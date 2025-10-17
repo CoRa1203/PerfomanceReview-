@@ -49,6 +49,7 @@
     "@heroui/toast": "2.0.17",
     "@heroui/tooltip": "2.2.24",
     "@heroui/user": "2.2.22",
+    "@prisma/client": "^6.17.1",
     "@react-aria/ssr": "3.9.10",
     "@react-aria/visually-hidden": "3.8.28",
     "clsx": "2.1.1",
@@ -63,7 +64,7 @@
     "@next/eslint-plugin-next": "15.3.4",
     "@react-types/shared": "3.32.1",
     "@tailwindcss/postcss": "4.1.11",
-    "@types/node": "20.5.7",
+    "@types/node": "^20.5.7",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@typescript-eslint/eslint-plugin": "8.34.1",
@@ -81,8 +82,10 @@
     "globals": "16.0.0",
     "postcss": "8.5.6",
     "prettier": "3.5.3",
+    "prisma": "^6.17.1",
     "tailwind-variants": "3.1.1",
     "tailwindcss": "4.1.11",
-    "typescript": "5.6.3"
+    "tsx": "^4.20.6",
+    "typescript": "^5.6.3"
   }
 }
