@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  // output   = "../generated/prisma"
 }
 
 datasource db {
@@ -15,15 +15,113 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  username      String    @unique // Уникальный логин
-  password      String    // Хэш пароля (опционально)
+  id        String    @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email     String   @unique
+  name      String?
+  password  String
+
+  reviews         Review[]  @relation(name: "reviews")
+  tasks           Task[]    @relation(name: "tasks")
+
+  createReviews   Review[]  @relation(name: "createReviews")
+  createTasks     Task[]    @relation(name: "createTasks")
+  createFeedbacks Feedback[]
+
   @@map("users")
 }
 
-model Target {
+
+// IDEA **механизм делегирования задачи вниз по служебной леснице
+model Task {
   id            Int       @id @default(autoincrement())
-  label         String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  isTarget      Boolean?
+
+  title         String
   description   String?
-  @@map("targets")
+  // TODO KPI
+  dateStart    DateTime?
+  dateEnd      DateTime?
+  link          String?               // ссылка на задачу в джира
+  progress      Int    @default(0)    // % выполнения
+  // TODO валидацию при генерации результатов ревью 
+  // суммы процентов всех проектов = 100% 
+  coefficient   Int    @default(100)  // %
+
+  // TODO таблицу сделать и связь
+  project       String?
+
+  // TODO подтверждение цели если ее создал не начальник  
+  // или сменить создателя на начальника - тогда она будет валидна
+  // isValid       Boolean?   
+  // status        ....
+
+  // TODO сделать обязательным
+  author        User?   @relation(name: "createTasks", fields: [authorId], references: [id])
+  authorId      String?
+  // TODO сделать обязательным
+  executor      User?   @relation(name: "tasks", fields: [executorId], references: [id])
+  executorId    String?
+
+  tasks         Task[] @relation(name: "tasks")
+  target        Task?  @relation(fields: [targetId], references: [id], name: "tasks")
+  targetId      Int?
+
+  // reviews       Review[]
+  review          Review?  @relation(fields: [reviewId], references: [id])
+  reviewId        Int?
+
+  feedbacks     Feedback[]
+
+  @@map("tasks")
 }
+
+model Review {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  date            DateTime?  // даты вынесения результата  
+  result          Int?
+  recommendation  String?
+
+  author        User?   @relation(fields: [authorId], references: [id], name: "createReviews")
+  authorId      String?
+  employee      User?   @relation(fields: [employeeId], references: [id], name: "reviews")
+  employeeId    String?
+  tasks         Task[]
+
+  @@map("reviews")
+}
+
+model Feedback {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  typeAuthor    typeAuthor?
+  result        Int    //1-3
+  response      Json
+
+  // TODO сделать обязательными
+  author        User?   @relation(fields: [authorId], references: [id])
+  authorId      String?
+  task          Task?  @relation(fields: [taskId], references: [id])
+  taskId        Int?
+
+  @@unique([authorId, taskId])
+  @@map("feedbacks")
+}
+
+enum typeAuthor {
+  self
+  colleague
+  chief
+} 
+
+// TODO
+// Спрпавочник сотрудников
