@@ -4,7 +4,7 @@
 - запустить СУБД
 ```
 docker run --name db_pr -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres_pass -e POSTGRES_DB=data -d postgres
-npm run prisma migrate dev
+npx prisma migrate dev
 npx prisma studio
 ```
 - запустить приложение
@@ -12,3 +12,15 @@ npx prisma studio
 hostname -I
 npm run dev -H 172.17.0.1
 ```
+
+
+## Используетые технологии
+- docker
+- postgres
+### JS библиотеки и фреймворки
+- prisma ORM
+- Next.js
+- react
+- react-hook-form
+- auth.js
+- bcryptjs
