@@ -23,6 +23,11 @@ model User {
   name      String?
   password  String
 
+  // TODO сделать обязательным
+  // lead            User?   @relation(name: "structure", fields: [authorId], references: [id])
+  // leadId          String?
+  // subordinates    User[]  @relation(name: "structure")
+
   reviews         Review[]  @relation(name: "reviews")
   tasks           Task[]    @relation(name: "tasks")
 
