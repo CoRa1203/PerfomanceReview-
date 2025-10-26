@@ -29,6 +29,8 @@ export const APIReview = new CRUD('/v0/review')
 // Task ************************************************************************************************************************************************
 
 export const APITask = new CRUD('/v0/task')
+export const APIGoal = new CRUD('/v0/goal')
+
 
 // export const Task = {
 //   path:      '/v0/task',

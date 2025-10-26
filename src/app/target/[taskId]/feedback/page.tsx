@@ -1,21 +1,26 @@
+// TODO 
+// обязательные поля
+// дизейблить поля на время isLoading
+
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Task } from '@prisma/client'
 import { TaskGET, FeedbackPOST } from '@/types'
-import { APITask, APIFeedback } from '@/lib/API'
-import { Button, Input, NumberInput, Textarea } from '@heroui/react'
+import { APITask, APIFeedback, APIGoal } from '@/lib/API'
+import { Alert, Button, Input, NumberInput, Textarea } from '@heroui/react'
+import AlertError from '@/shared/ui/AlertError'
+import LoadingAlert from '@/shared/ui/Loader/LoadingAlert'
 import { useSession } from 'next-auth/react'
 import { Controller, useForm } from 'react-hook-form'
+import { useQueryData } from '@/hooks/useQueryData'
+import {defineScore} from './lib'
 
 
-export type FeedbackData = {
-  response:     object;
-  result:       number;
-}
+type FeedbackData = Record<string, string | number>
 
-const [ SELF, LEAD, COLLEAGUE ] = ['self', 'chief', 'colleague']
+const [ SELF, LEAD, COLLEAGUE ] = ['self', 'lead', 'colleague']
 
 
 export default function FeedbackPage(){
@@ -25,12 +30,14 @@ export default function FeedbackPage(){
   const taskId = parseInt(params.taskId)
   useEffect(()=>{
     if (taskId) {
-      APITask.get(taskId).then(task => setTask(task))
+      APIGoal.get(taskId).then(task => setTask(task))
     }
   }, [taskId])
   const session = useSession()
   const user = session.data?.user
-
+  const { query, data, errorMessage, isLoading } = useQueryData()
+  const [ error, setError ] = useState<string | undefined>()
+  useEffect(()=>{setError(errorMessage)}, [errorMessage])
 
   // const [typeAuthor, setTypeAuthor] = useState()
   const typeAuthor = useMemo(()=>{
@@ -38,51 +45,40 @@ export default function FeedbackPage(){
       if (user?.id === task?.executorId) {
         return SELF
       // TODO оцените подчененого
-      // } else if(user?.id === task?.executor.lead.id) {
-        // return 'Оцените работу подчиненного'
+      } else if(user?.id === task?.executor.leadId) {
+        return LEAD
       } else {
         return COLLEAGUE
       }
     } else return undefined
   }, [task, user])
 
-
-
-  const save = (feedback: FeedbackData)=>{
+ 
+  const save = (feedback: Record<string, string | number>)=>{
     if (taskId && user?.id && typeAuthor) {
       const feedbackData = {
         taskId,
         authorId: user.id,
         typeAuthor,
-        ...feedback
+        result: defineScore(feedback),
+        response: feedback
       }
-      console.log(feedbackData)
-      // TODO -> включить
-      // APIFeedback.create(feedbackData)
-      //   .then(res => { router.push('/') }) 
+      // console.log(feedbackData)
+      query( 
+        APIFeedback.create(feedbackData)
+        // TODO выводить модалку что все сохранено и можно закрыть
+        .then(res => { router.push('/') })
+      )
     } else {
       console.error('Отсутствуют некоторые данные для сохранения')
       console.log(taskId, user?.id, typeAuthor)
     }
   }
 
-// const [ SELF, LEAD, COLLEAGUE ] = ['self', 'chief', 'colleague']
-  const FormFeedback = (()=>{
-    switch (typeAuthor){
-      case COLLEAGUE:
-        return (
-        <FeedbackColleague save={save} >
-          <TaskView task={task} />
-        </FeedbackColleague>
-        )
-
-      default:
-        return undefined
-    }
-  })()
-
 
   return <>
+    {error && <AlertError>{error}</AlertError>}
+    {isLoading && <LoadingAlert>Сохранение...</LoadingAlert>}
     {/* <p>{taskId}</p>
     <p>{JSON.stringify(task)}</p>
     <p>task?.executorId {task?.executorId}</p>
@@ -119,9 +115,9 @@ export default function FeedbackPage(){
 function TaskView({task}: {task: TaskGET}){
 
   return <>
-    {/* <p> Исполнитель: 
-      {task.executor.name || task.executor.email}
-    </p> */}
+    <p> Исполнитель: 
+      {task.executor?.name || task.executor?.email}
+    </p>
     <p>Задача: {task.title}</p>
     <p>Описание: {task.description}</p>
   </>
@@ -217,26 +213,8 @@ function FeedbackForm({
     }
   })
 
-  // получим сумму только числовых значений
-  // TODO перевод в баллы 0-3 балла
-  // TODO перенести в save
-  function sumNumber(data: Record<string, string | number>){
-    let sum = 0
-      for ( let i of Object.values(data)){
-        if ( Number.isFinite(i) ){
-          // @ts-ignore
-          sum += i
-        }
-      }
-    return sum
-  }
-
   function handleFeedback(): void {
-    const feedback: FeedbackData = {
-      result: sumNumber(dataForm),
-      response: dataForm 
-    }
-    save(feedback)
+    save(dataForm)
   }
 
   return <>
