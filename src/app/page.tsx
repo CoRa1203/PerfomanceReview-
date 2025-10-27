@@ -1,56 +1,57 @@
-import { Link } from "@heroui/link";
-import { Snippet } from "@heroui/snippet";
-import { Code } from "@heroui/code";
-import { button as buttonStyles } from "@heroui/theme";
+"use client";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { APITask } from "@/lib/API/functionAPI";
+import { Goal } from "@/types";
+import {
+  Modal,
+  useDisclosure,
+  Button,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+} from "@heroui/react";
+import FormGoal from "@/components/Forms/FormGoal";
 
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+// const ROOT_URL_API = "http://192.168.137.1:3000/api";
+// const url = ROOT_URL_API + "/v0/task";
 
 export default function Home() {
+  const [goals, setGoals] = useState<Goal[]>([]);
+  const { onOpen, isOpen, onOpenChange } = useDisclosure();
+
+  useEffect(() => {
+    async function getData() {
+      const data = await APITask.getList();
+      setGoals(data);
+    }
+    getData();
+  }, []);
+
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-xl text-center justify-center">
-        <span className={title()}>Make&nbsp;</span>
-        <span className={title({ color: "violet" })}>beautiful&nbsp;</span>
-        <br />
-        <span className={title()}>
-          websites regardless of your design experience.
-        </span>
-        <div className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </div>
+    <>
+      <Button color="primary" onPress={onOpen}>
+        Создать цель
+      </Button>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+              <ModalBody>
+                <FormGoal />
+              </ModalBody>
+          )}
+        </ModalContent>
+      </Modal>
+      <div>
+        <h2>Цели:</h2>
+        <ul>
+          {goals.map((goal) => (
+            <Link key={goal.id} href={`/goals/${goal.id}`}>
+              <li>{goal.title}</li>
+            </Link>
+          ))}
+        </ul>
       </div>
-
-      <div className="flex gap-3">
-        <Link
-          isExternal
-          className={buttonStyles({
-            color: "primary",
-            radius: "full",
-            variant: "shadow",
-          })}
-          href={siteConfig.links.docs}
-        >
-          Documentation
-        </Link>
-        <Link
-          isExternal
-          className={buttonStyles({ variant: "bordered", radius: "full" })}
-          href={siteConfig.links.github}
-        >
-          <GithubIcon size={20} />
-          GitHub
-        </Link>
-      </div>
-
-      <div className="mt-8">
-        <Snippet hideCopyButton hideSymbol variant="bordered">
-          <span>
-            Get started by editing <Code color="primary">app/page.tsx</Code>
-          </span>
-        </Snippet>
-      </div>
-    </section>
+    </>
   );
 }
