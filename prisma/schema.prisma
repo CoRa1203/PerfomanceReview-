@@ -23,6 +23,10 @@ model User {
   name      String?
   password  String
 
+  lead            User?   @relation(name: "structure", fields: [leadId], references: [id])
+  leadId          String?
+  subordinates    User[]  @relation(name: "structure")
+
   reviews         Review[]  @relation(name: "reviews")
   tasks           Task[]    @relation(name: "tasks")
 
@@ -120,7 +124,7 @@ model Feedback {
 enum typeAuthor {
   self
   colleague
-  chief
+  lead
 } 
 
 // TODO

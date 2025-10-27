@@ -14,7 +14,6 @@ import {
   ModalHeader,
   ModalBody,
 } from "@heroui/react";
-import FormGoal from "@/components/Forms/FormGoal";
 
 // const ROOT_URL_API = "http://192.168.137.1:3000/api";
 const ROOT_URL_API = process.env.NEXT_PUBLIC_HOST + `/api`;
@@ -25,14 +24,26 @@ export default function Goal() {
   const router = useRouter();
   const id = params.id as string;
   const [goal, setGoal] = useState<Task>();
+  // const [tasks, setTasks] = useState<Task>();
+    const [allTasks, setAllTasks] = useState<Task[]>([]); // Все задачи
+  const [tasks, setTasks] = useState<Task[]>([]); // Только подзадачи этой цели
+
   const { onOpen, isOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
-    async function getData() {
+    async function getGoalData() {
       const data = await APITask.get(id);
       setGoal(data);
     }
-    getData();
+    getGoalData();
+  }, [id]);
+
+  useEffect(() => {
+    async function getTaskData(){
+      const data = await APITask.get(id);
+      setTasks(data);
+    }
+    getTaskData()
   }, [id]);
 
   async function deleteGoal() {
@@ -43,6 +54,8 @@ export default function Goal() {
   const handleEdit = () => {
     router.push(`/goals/${id}/edit`); // открываем форму редактирования
   };
+
+
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -79,6 +92,11 @@ export default function Goal() {
           )}
         </ModalContent>
       </Modal>
+      <ul>
+        {tasks?.map((task) => (
+
+        ))}
+      </ul>
     </div>
   );
 }

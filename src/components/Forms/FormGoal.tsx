@@ -5,6 +5,7 @@ import { Form, Input, Button, ModalHeader } from "@heroui/react";
 import { DatePicker } from "@heroui/react";
 import { useParams, useRouter } from "next/navigation";
 import { APITask } from "@/lib/API/functionAPI";
+import { Task } from "@prisma/client";
 
 const ROOT_URL_API = "http://192.168.137.1:3000/api";
 const url = ROOT_URL_API + "/v0/task";
@@ -30,6 +31,7 @@ export default function FormGoal({ goalData }: IProps) {
     description: goalData?.description || "",
     dateStart: goalData?.dateStart,
     dateEnd: goalData?.dateEnd,
+    // isTarget: true,
   });
 
   const params = useParams();

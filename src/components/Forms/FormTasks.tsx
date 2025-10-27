@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { Task } from "@prisma/client";
 
-const ROOT_URL_API = "http://192.168.137.1:3000/api";
-const url = ROOT_URL_API + "/v0/task/{TargetId}/subtask";
+const ROOT_URL_API = "http://localhost:3000/api";
+const url = ROOT_URL_API + "/v0/task/";
 
 interface IProps {
   taskData?: Task;
@@ -20,7 +20,6 @@ export default function FormTasks({ taskData }: IProps) {
     id: taskData?.id,
     title: taskData?.title || "",
     description: taskData?.description || "",
-    isTarget: false,
   });
 
   async function saveTask() {
@@ -36,7 +35,7 @@ export default function FormTasks({ taskData }: IProps) {
     const response = await fetch(url, {
       headers: { "Content-Type": "json" },
       body: JSON.stringify({
-        targetId: id,
+        targetId: +id,
         ...newTask,
       }),
       method: "PUT",
@@ -49,7 +48,7 @@ export default function FormTasks({ taskData }: IProps) {
     const response = await fetch(url, {
       headers: { "Content-Type": "json" },
       body: JSON.stringify({
-        targetId: id,
+        targetId: +id, //id цели к которой привязывается подзадача
         ...newTask,
       }),
       method: "POST",
