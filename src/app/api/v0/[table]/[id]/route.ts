@@ -62,7 +62,7 @@ export async function DELETE(request: Request, context: Context){
     return Response.json({ error: 'Not Found' }, { status: 404 })
   } 
 
-  const data = await request.json()  
+  // const data = await request.json()  
   // @ts-ignore
   const res = await prisma[table].delete({where: {id}}) 
   return Response.json(res)

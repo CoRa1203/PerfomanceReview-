@@ -5,9 +5,18 @@ import { Task } from "@prisma/client";
 
 const ROOT_URL_API = "http://localhost:3000/api";
 const url = ROOT_URL_API + "/v0/task/";
+const urlGoal = ROOT_URL_API + "/v0/goal/"
+
+export interface TaskProp {
+  id?: number;
+  title: string;
+  description: string;
+  dateStart?: Date;
+  dateEnd?: Date;
+}
 
 interface IProps {
-  taskData?: Task;
+  taskData?: TaskProp;
 }
 
 // api/v1/task/{TargetId}/subtask
@@ -16,7 +25,7 @@ export default function FormTasks({ taskData }: IProps) {
   const params = useParams();
   const id = params.id as string;
 
-  const [newTask, setNewTask] = useState({
+  const [newTask, setNewTask] = useState<TaskProp>({
     id: taskData?.id,
     title: taskData?.title || "",
     description: taskData?.description || "",
@@ -32,7 +41,7 @@ export default function FormTasks({ taskData }: IProps) {
 
 
   async function updateTask() {
-    const response = await fetch(url, {
+    const response = await fetch(`${urlGoal}/${id}/subtask`, {
       headers: { "Content-Type": "json" },
       body: JSON.stringify({
         targetId: +id,
@@ -44,8 +53,9 @@ export default function FormTasks({ taskData }: IProps) {
     return updatedData;
   }
 
+
   async function createTask() {
-    const response = await fetch(url, {
+    const response = await fetch(`${urlGoal}/${id}/subtask`, {
       headers: { "Content-Type": "json" },
       body: JSON.stringify({
         targetId: +id, //id цели к которой привязывается подзадача
@@ -53,9 +63,10 @@ export default function FormTasks({ taskData }: IProps) {
       }),
       method: "POST",
     });
-    const updatedData = await response.json();
-    return updatedData;
+    const createdData = await response.json();
+    return createdData;
   }
+
 
   return (
     <>

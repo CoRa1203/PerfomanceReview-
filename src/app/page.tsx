@@ -1,8 +1,4 @@
 "use client";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { APITask } from "@/lib/API/functionAPI";
-import { Goal } from "@/types";
 import {
   Modal,
   useDisclosure,
@@ -10,48 +6,41 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
+  Tooltip,
 } from "@heroui/react";
 import FormGoal from "@/components/Forms/FormGoal";
+
+import { Add } from "@/components/icons";
+import GoalTable from "@/components/GoalTable";
 
 // const ROOT_URL_API = "http://192.168.137.1:3000/api";
 // const url = ROOT_URL_API + "/v0/task";
 
 export default function Home() {
-  const [goals, setGoals] = useState<Goal[]>([]);
   const { onOpen, isOpen, onOpenChange } = useDisclosure();
 
-  useEffect(() => {
-    async function getData() {
-      const data = await APITask.getList();
-      setGoals(data);
-    }
-    getData();
-  }, []);
-
   return (
-    <>
-      <Button color="primary" onPress={onOpen}>
-        Создать цель
-      </Button>
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-4 justify-between items-center">
+        <h1 className="text-2xl">Цели</h1>
+        <Tooltip content="Создать цель">
+          <Button isIconOnly color="primary" onPress={onOpen}>
+            <Add />
+          </Button>
+        </Tooltip>
+      </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
-              <ModalBody>
-                <FormGoal />
-              </ModalBody>
+            <ModalBody>
+              <FormGoal />
+            </ModalBody>
           )}
         </ModalContent>
       </Modal>
       <div>
-        <h2>Цели:</h2>
-        <ul>
-          {goals.map((goal) => (
-            <Link key={goal.id} href={`/goals/${goal.id}`}>
-              <li>{goal.title}</li>
-            </Link>
-          ))}
-        </ul>
+        <GoalTable />
       </div>
-    </>
+    </div>
   );
 }
