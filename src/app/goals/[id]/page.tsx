@@ -51,7 +51,7 @@ export default function Goal() {
 
   async function deleteGoal() {
     await APITask.delete(id);
-     router.refresh();
+     router.push(`/`);
   }
 
   async function deleteTask(id: string) {
@@ -63,6 +63,9 @@ export default function Goal() {
     router.push(`/goals/${id}/edit`); // открываем форму редактирования
   };
 
+   const handleEditTask = (taskId: string) => {
+    router.push(`/goals/${id}/${taskId}/edit`); // открываем форму редактирования
+  };
   return (
      <div className="w-full flex flex-col gap-4">
       <div className="flex gap-4 justify-between">
@@ -113,7 +116,7 @@ export default function Goal() {
               </p>
             </div>
             <div className="flex gap-2 flex-shrink-0"> {/* Кнопки не сжимаются */}
-              <Button isIconOnly variant="light" onPress={handleEditGoal} size="sm">
+              <Button isIconOnly variant="light" onPress={() => handleEditTask(task.id)} size="sm">
                 <Edit />
               </Button>
               <Button isIconOnly variant="light" onPress={() => deleteTask(task.id)} size="sm">

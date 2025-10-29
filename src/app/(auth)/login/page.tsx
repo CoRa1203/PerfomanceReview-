@@ -39,18 +39,20 @@ export default function Login(){
   }
 
   return ( 
-  <div className='m-auto w-80 mt-20'>
+  <div className='flex flex-col m-auto w-80 mt-20 gap-4 items-center'>
+    <h1 className='text-2xl'>Вход</h1>
     { error ? <Alert color="danger" className=" mb-2 " >{error}</Alert> : <></> }
 
     <form onSubmit={handleSubmit(handleForm)} className=" *:mb-2 " >
       <Input  type='email'     {...register('email')} />
       <Input  type='password'  {...register('password')} />
-      <Button type='submit' className='w-80' > Войти </Button>
-    </form>  
-    
-    <Button className=" w-80 mb-2"
+      <Button color="primary" type='submit' className='w-80' > Войти </Button>
+       <Button className=" w-80 mb-2"
       onPress={()=>{ router.push('/register') }}
     > Зарегистрироваться </Button>
+    </form>  
+    
+   
   </div>
   )
 }

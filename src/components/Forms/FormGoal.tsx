@@ -16,7 +16,9 @@ export interface Goal {
   description: string;
   dateStart?: Date;
   dateEnd?: Date;
+  isTarget: true;
 }
+
 
 interface IProps {
   goalData?: Goal;
@@ -31,7 +33,7 @@ export default function FormGoal({ goalData }: IProps) {
     description: goalData?.description || "",
     dateStart: goalData?.dateStart,
     dateEnd: goalData?.dateEnd,
-    // isTarget: true,
+    isTarget: true,
   });
 
   const params = useParams();
@@ -43,7 +45,7 @@ export default function FormGoal({ goalData }: IProps) {
       updateGoal();
       router.push(`/goals/${id}`);
     } else {
-      createGoal();
+  
       const createdGoal = await createGoal();
       router.push(`/goals/${createdGoal.id}`);
     }
@@ -66,7 +68,6 @@ export default function FormGoal({ goalData }: IProps) {
       router.back();
     }
   }
-
   return (
     <>
       <div className="pt-2 pb-2">
@@ -100,7 +101,6 @@ export default function FormGoal({ goalData }: IProps) {
         <DatePicker className="max-w-[284px]" label="Birth date" />
         <DatePicker className="max-w-[284px]" label="Birth date" />
         <Textarea
-          isRequired
           isClearable
           className="max-w-xs"
           label="Одижаемый результат"

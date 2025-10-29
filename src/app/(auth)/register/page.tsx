@@ -76,7 +76,8 @@ export default function Register(){
 
   }
 
-  return <div className='w-80 m-auto mt-10'>
+  return <div className='flex flex-col m-auto w-80 mt-20 gap-4 items-center'>
+    <h1 className='text-2xl'>Регистрация</h1>
     {error ? <Alert color="danger" className=" mb-2" > {error} </Alert> : <></>}
 
     <form onSubmit={handleSubmit(handleForm)} className=" *:mb-2">
@@ -85,7 +86,7 @@ export default function Register(){
       <Input type="password" {...register('password')} label="Пароль" />
       <Input type="password" {...register('password2')} label="Повторите пароль" />
 
-      <Button type="submit" className='w-80' > Создать профиль </Button>
+      <Button color="primary" type="submit" className='w-80' > Создать профиль </Button>
     </form>
   </ div>  
 }

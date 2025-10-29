@@ -1,6 +1,8 @@
+'use client'
+
 import { Button, Input, Textarea } from "@heroui/react";
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Task } from "@prisma/client";
 
 const ROOT_URL_API = "http://localhost:3000/api";
@@ -17,34 +19,42 @@ export interface TaskProp {
 
 interface IProps {
   taskData?: TaskProp;
+
 }
 
 // api/v1/task/{TargetId}/subtask
 
 export default function FormTasks({ taskData }: IProps) {
+  const router = useRouter();
   const params = useParams();
-  const id = params.id as string;
+  const goalId = params.id as string;
+  // const taskId = params.taskId as string;
+
 
   const [newTask, setNewTask] = useState<TaskProp>({
     id: taskData?.id,
     title: taskData?.title || "",
     description: taskData?.description || "",
   });
+  
 
   async function saveTask() {
     if (newTask.id) {
       updateTask();
+      router.back()
     } else {
       createTask();
+     router.push(`/goals/${goalId}`);
     }
   }
 
 
   async function updateTask() {
-    const response = await fetch(`${urlGoal}/${id}/subtask`, {
+    // const response = await fetch(`${urlGoal}/${goalId}/subtask`, {
+    const response = await fetch(url + newTask.id, {
       headers: { "Content-Type": "json" },
       body: JSON.stringify({
-        targetId: +id,
+        targetId: +goalId,
         ...newTask,
       }),
       method: "PUT",
@@ -55,10 +65,11 @@ export default function FormTasks({ taskData }: IProps) {
 
 
   async function createTask() {
-    const response = await fetch(`${urlGoal}/${id}/subtask`, {
+    // const response = await fetch(`${urlGoal}/${goalId}/subtask`, {
+    const response = await fetch(url, {
       headers: { "Content-Type": "json" },
       body: JSON.stringify({
-        targetId: +id, //id цели к которой привязывается подзадача
+        targetId: +goalId, //id цели к которой привязывается подзадача
         ...newTask,
       }),
       method: "POST",
@@ -66,6 +77,7 @@ export default function FormTasks({ taskData }: IProps) {
     const createdData = await response.json();
     return createdData;
   }
+
 
 
   return (
@@ -108,10 +120,15 @@ export default function FormTasks({ taskData }: IProps) {
             // if (error) setError(null) // убираем ошибку, когда заполняем поле
           }}
         />
+         <div className="flex gap-2 pt-2 pb-2">
+                  <Button color="primary" type="submit" onPress={saveTask}>
+                    {newTask.id ? "Сохранить" : "Создать"}
+                  </Button>
+                  <Button type="reset" variant="flat" >
+                    Отмена
+                  </Button>
+                </div>
         <div>
-          <Button color="primary" onPress={saveTask}>
-            Сохранить
-          </Button>
         </div>
       </div>
     </>
