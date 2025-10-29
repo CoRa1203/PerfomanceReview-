@@ -15,7 +15,7 @@ export default function Login(){
   const [ error, setError ] = useState<string>()
   const { register, handleSubmit  } = useForm<Form>()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/profile' || '/'
+  const callbackUrl = searchParams.get('callbackUrl') || '/cabinet' || '/'
   const router = useRouter()
 
   async function handleForm(formData: {email: string, password: string}){

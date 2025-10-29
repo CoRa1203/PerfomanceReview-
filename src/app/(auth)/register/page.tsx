@@ -70,7 +70,7 @@ export default function Register(){
       // вход в аккаунт
       signIn('credentials', {...credentials, redirect: false })
       // редирект 
-      router.push('/profile') 
+      router.push('/cabinet') 
     })
     .catch((error) => { setError(error.message) })
 

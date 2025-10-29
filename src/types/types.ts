@@ -6,6 +6,24 @@ export type {  User, Review, Task, Feedback, typeAuthor } from '@prisma/client'
 
 // Review  ******************************************************************************************************
 
+export type ReviewPOST = {
+  // id: number;
+  // createdAt: Date;
+  // updatedAt: Date;
+  // authorId: string | null;
+  dateStart?: Date | null;
+  dateEnd?: Date | null;
+  dateRes?: Date | null;
+
+  result?: number | null;
+  perfomance?: number | null;
+  potential?: number | null;
+  
+  recommendation?: string | null;
+  
+  employeeId: string | null;
+}
+
 // Task  ******************************************************************************************************
 export type TaskGET = Task & {
   executor: User

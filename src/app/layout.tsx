@@ -54,7 +54,8 @@ export default function RootLayout({
               <Link
                 href="/"
               >
-               <Logo/>
+               {/* <Logo/> */}
+               <p> by 47 </p>
               </Link>
             </footer>
           </div>
