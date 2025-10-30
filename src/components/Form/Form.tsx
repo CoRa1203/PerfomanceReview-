@@ -20,6 +20,8 @@ export type Field = {
   type:   'text' | 'date' | 'number'
   name:   string
   label:  string
+  defaultValue?: any
+  required?: boolean
 }
 
 {/* <Form fields={fields} defaultValues={review} onSubmit={handleSubmit} ButtonName={'Сохранить'} /> */}
@@ -28,15 +30,20 @@ export default function FormComponent({
   defaultValues,
   onSubmit,
   ButtonName,
+  className,
+  classNameitems,
 }: {
   fields: Field[],
   defaultValues?: any,
   onSubmit: (data: any)=> void,
   ButtonName?: string,
+  className?: string,
+  classNameitems?: string,
 }){
 
+  classNameitems = classNameitems || "w-[284px]"
   
-  const fieldsForm = fields.map(field => {
+  const fieldsForm: Field[] = fields.map(field => {
     if (defaultValues) {
       for ( let key in defaultValues) {
         if (field.name === key ){
@@ -51,52 +58,53 @@ export default function FormComponent({
   // console.log(fieldsForm)
   // console.log(defaultValues)
   
+  const onSubmitForm = (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.currentTarget));
+    onSubmit(data)
+  };
 
-    const onSubmitForm = (e) => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(e.currentTarget));
-      console.log(data)
-      // setSubmitted(data);
-    };
-
-    
-    return <>
-
-    <Form className="w-full max-w-xs" onSubmit={onSubmitForm}>
+  return <>
+    <Form className={ className || "w-full max-w-xs"} onSubmit={onSubmitForm}>
 
       {fieldsForm.map(field=> 
         {switch(field.type){
             case 'date':
               return <div key={field.name}>
               <DatePicker
-                size="sm" className="max-w-[284px]"
+                size="sm" className={classNameitems}
                 // variant="bordered"
                 hideTimeZone
                 showMonthAndYearPickers
                 // onChange={(date)=>{console.log(date?.toDate())}}
                 onChange={(date)=>{date?.toDate()}}
-                defaultValue={parseDate(dayjs(field.defaultValue).format('YYYY-MM-DD'))}
+                //  по умолчанию ставит сегодняшнюю дату
+                // defaultValue={parseDate(dayjs(field.defaultValue).format('YYYY-MM-DD'))}
+                defaultValue={field.defaultValue && parseDate(dayjs(field.defaultValue).format('YYYY-MM-DD'))}
                 label={field.label}
                 name={field.name}
+                isRequired={field.required}
               />
               </div>
             case 'text':
               return <div key={field.name}>
-                <Input size="sm" className="max-w-[284px]"
+                <Input size="sm" className={classNameitems}
                   name={field.name}
                   type={field.type}
                   label={field.label}
                   defaultValue={field.defaultValue}
+                  isRequired={field.required}
                   // {...field}
                 />
               </div>
             case 'number':
               return <div key={field.name}>
-                <NumberInput size="sm" className="max-w-[284px]"
+                <NumberInput size="sm" className={classNameitems}
                   name={field.name}
                   type={field.type}
                   label={field.label}
                   defaultValue={field.defaultValue}
+                  isRequired={field.required}
                 />
               </div>
             default:
@@ -106,7 +114,7 @@ export default function FormComponent({
         }
       )}
 
-      <Button type='submit'> { ButtonName || 'Сохранить'} </Button>
+      <Button className={classNameitems} type='submit'> { ButtonName || 'Сохранить'} </Button>
     </Form>  
   </>
 }
