@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Textarea } from "@heroui/react";
+import { Autocomplete, AutocompleteItem, Textarea } from "@heroui/react";
 import { Form, Input, Button, ModalHeader } from "@heroui/react";
 import { DatePicker } from "@heroui/react";
 import { useParams, useRouter } from "next/navigation";
@@ -26,6 +26,7 @@ interface IProps {
 
 export default function FormGoal({ goalData }: IProps) {
   const [action, setAction] = React.useState<string | null>(null);
+  const [goalApi, setGoaApi] = React.useState([]);
 
   const [newGoal, setNewGoal] = useState<Goal>({
     id: goalData?.id,
@@ -49,6 +50,12 @@ export default function FormGoal({ goalData }: IProps) {
       const createdGoal = await createGoal();
       router.push(`/goals/${createdGoal.id}`);
     }
+  }
+
+  async function getData(){
+    const getData = await APITask.getList()
+    setGoaApi(getData);
+
   }
 
   async function createGoal() {

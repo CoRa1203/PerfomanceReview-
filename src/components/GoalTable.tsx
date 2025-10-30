@@ -109,7 +109,7 @@ export default function GoalsTable({goals}: {goals: Goal[]}) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4 justify-between items-center">
-        <h1 className="h1">Цели</h1>
+        <h1 className="text-2xl">Цели</h1>
         <Tooltip content="Создать цель">
           <Button isIconOnly color="primary" onPress={onOpen}>
             <Add />
