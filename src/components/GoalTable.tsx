@@ -49,6 +49,7 @@ export default function GoalsTable({goals}: {goals: Goal[]}) {
   const { onOpen, isOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
 
+ 
   async function deleteGoal(goalId: string) {
     await APITask.delete(goalId);
   router.push("/")

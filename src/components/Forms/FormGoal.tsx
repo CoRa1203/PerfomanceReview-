@@ -105,8 +105,8 @@ export default function FormGoal({ goalData }: IProps) {
             // if (error) setError(null) // убираем ошибку, когда заполняем поле
           }}
         />
-        <DatePicker className="max-w-[284px]" label="Birth date" />
-        <DatePicker className="max-w-[284px]" label="Birth date" />
+        <DatePicker  className="max-w-[284px]" label="Дата начала" />
+        <DatePicker className="max-w-[284px]" label="Дата завершения" />
         <Textarea
           isClearable
           className="max-w-xs"

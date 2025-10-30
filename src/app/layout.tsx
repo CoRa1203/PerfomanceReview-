@@ -10,6 +10,7 @@ import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { Logo } from "@/components/icons";
+import { HeroUIProvider } from "@heroui/system";
 
 export const metadata: Metadata = {
   title: {
@@ -45,6 +46,7 @@ export default function RootLayout({
       >
         <ProvidersServer>
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+          <HeroUIProvider locale="ru-RU">
           <div className="relative flex flex-col h-screen ">
             <Navbar/>
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
@@ -59,6 +61,7 @@ export default function RootLayout({
               </Link>
             </footer>
           </div>
+          </HeroUIProvider>
         </Providers>
         </ProvidersServer>
       </body>

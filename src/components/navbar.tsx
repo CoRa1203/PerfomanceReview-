@@ -20,6 +20,7 @@ import { Logo, LogIn, LogOut } from "@/components/icons";
 export const Navbar = () => {
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
+  
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
