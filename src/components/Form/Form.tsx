@@ -1,7 +1,7 @@
 'use client'
 
 import { useForm, Controller } from "react-hook-form"
-import { Button, DatePicker, Form, Input, NumberInput } from "@heroui/react"
+import { Button, DatePicker, Form, Input, NumberInput, Textarea } from "@heroui/react"
 import {now, getLocalTimeZone, parseDate, ZonedDateTime} from "@internationalized/date";
 import dayjs from 'dayjs'
 
@@ -17,11 +17,12 @@ export function dateInputToDate(zonedDateTime: ZonedDateTime){
 const [TEXT, DATE, NUMBER] = ['text', 'date', 'number']
 
 export type Field = {
-  type:   'text' | 'date' | 'number'
+  type:   'text' | 'date' | 'number' | 'textarea'
   name:   string
   label:  string
   defaultValue?: any
   required?: boolean
+  placeholder?: any
 }
 
 {/* <Form fields={fields} defaultValues={review} onSubmit={handleSubmit} ButtonName={'Сохранить'} /> */}
@@ -35,7 +36,7 @@ export default function FormComponent({
 }: {
   fields: Field[],
   defaultValues?: any,
-  onSubmit: (data: any)=> void,
+  onSubmit: (data: object)=> void,
   ButtonName?: string,
   className?: string,
   classNameitems?: string,
@@ -54,13 +55,17 @@ export default function FormComponent({
     return field
   })
   
-  // console.log('fields',fields)
-  // console.log(fieldsForm)
-  // console.log(defaultValues)
+  console.log('fields',fields)
+  console.log('fieldsForm', fieldsForm)
+  console.log('defaultValues', defaultValues)
   
   const onSubmitForm = (e) => {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
+    const dataForm = Object.fromEntries(new FormData(e.currentTarget));
+    const data = {
+      ...defaultValues,
+      ...dataForm,
+    }
     onSubmit(data)
   };
 
@@ -77,7 +82,10 @@ export default function FormComponent({
                 hideTimeZone
                 showMonthAndYearPickers
                 // onChange={(date)=>{console.log(date?.toDate())}}
-                onChange={(date)=>{date?.toDate()}}
+                // onChange={(d)=>{
+                //   const date = d?.toDate(getLocalTimeZone())
+                //   return date ? new Date(date) : null
+                // }}
                 //  по умолчанию ставит сегодняшнюю дату
                 // defaultValue={parseDate(dayjs(field.defaultValue).format('YYYY-MM-DD'))}
                 defaultValue={field.defaultValue && parseDate(dayjs(field.defaultValue).format('YYYY-MM-DD'))}
@@ -94,6 +102,19 @@ export default function FormComponent({
                   label={field.label}
                   defaultValue={field.defaultValue}
                   isRequired={field.required}
+                  placeholder={field.placeholder}
+                  // {...field}
+                />
+              </div>
+            case 'textarea':
+              return <div key={field.name}>
+                <Textarea size="sm" className={classNameitems}
+                  name={field.name}
+                  type={field.type}
+                  label={field.label}
+                  defaultValue={field.defaultValue}
+                  isRequired={field.required}
+                  placeholder={field.placeholder}
                   // {...field}
                 />
               </div>
@@ -105,6 +126,7 @@ export default function FormComponent({
                   label={field.label}
                   defaultValue={field.defaultValue}
                   isRequired={field.required}
+                  placeholder={field.placeholder}
                 />
               </div>
             default:

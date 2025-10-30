@@ -1,13 +1,15 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Next.js + HeroUI",
-  description: "Make beautiful websites regardless of your design experience.",
+  name: "Система Performance Review - by 47",
+  description: "Система Performance Review - by 47",
   navItemsLogInUser: [
     {
       label: "Личный кабинет",
       href: "/cabinet",
     },
+
+    // для теста  // TODO (потом перенести в админку)
     {
       label: "Ревью",
       href: "/reviews",
@@ -16,18 +18,7 @@ export const siteConfig = {
       label: "Цели",
       href: "/goals",
     },
-    // {
-    //   label: "Pricing",
-    //   href: "/pricing",
-    // },
-    // {
-    //   label: "Blog",
-    //   href: "/blog",
-    // },
-    // {
-    //   label: "About",
-    //   href: "/about",
-    // },
+
   ],
   navMenuItems: [
     // {

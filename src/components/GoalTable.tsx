@@ -46,6 +46,8 @@ export const columns = [
 
 export default function GoalsTable({goals}: {goals: Goal[]}) {
 
+  const userId = useParams().userId as string | undefined
+
   const { onOpen, isOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
 
@@ -121,7 +123,13 @@ export default function GoalsTable({goals}: {goals: Goal[]}) {
         <ModalContent>
           {(onClose) => (
             <ModalBody>
-              <FormGoal />
+              <FormGoal 
+                goalData={ userId ? 
+                  {isTarget: true, executorId: userId, } 
+                  : 
+                  {isTarget: true}
+                }
+              />
             </ModalBody>
           )}
         </ModalContent>

@@ -1,20 +1,26 @@
-import FormGoal, { Goal } from "@/components/Forms/FormGoal";
+'use client'
 
-// const ROOT_URL_API = "http://192.168.0.107:3000/api";
-const ROOT_URL_API = "http://192.168.137.1:3000/api";
-// const ROOT_URL_API = "/api";
-const url = ROOT_URL_API + "/v0/task";
+import { useEffect } from "react";
+import { Task } from "@prisma/client";
+import { APIGoal, APITask } from "@/lib/API";
+import { useParams } from "next/navigation";
+import { useQueryData } from "@/hooks/useQueryData";
+import AlertError from "@/shared/ui/AlertError";
+import FormGoal from "@/components/Forms/FormGoal";
+import LoadingAlert from "@/shared/ui/Loader/LoadingAlert";
 
-async function getData(id: string): Promise<Goal> {
-  const response = await fetch(url + "/" + id);
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
 
-export default async function Edit({ params }: { params: { id: string } }) {
-  const id = await params.id;
-  const data: Goal = await getData(id);
+export default function GoalsEdit() {
+  // const goalId = useParams().goalId as string | undefined
+  const goalId = useParams().id as string | undefined
+  const {query, data, isLoading, errorMessage, setErrorMessage} = useQueryData()
+  useEffect(()=>{
+    goalId && query(APITask.get(goalId))
+  },[])
 
-  return <FormGoal goalData={data} />;
+  return <>
+    {errorMessage && <AlertError/>}
+    {isLoading && <LoadingAlert />}  
+    {data && <FormGoal goalData={data} />}
+  </>
 }
