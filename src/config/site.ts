@@ -18,7 +18,6 @@ export const siteConfig = {
       label: "Цели",
       href: "/goals",
     },
-
   ],
   navMenuItems: [
     // {
