@@ -8,10 +8,11 @@ export const siteConfig = {
       label: "Личный кабинет",
       href: "/cabinet",
     },
-    // {
-    //   label: "Home",
-    //   href: "/",
-    // },
+
+    {
+      label: "Ревью",
+      href: "/reviews",
+    },
     // {
     //   label: "Цели",
     //   href: "/goals",
