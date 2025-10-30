@@ -12,10 +12,10 @@ export const siteConfig = {
     //   label: "Home",
     //   href: "/",
     // },
-    {
-      label: "Цели",
-      href: "/goals",
-    },
+    // {
+    //   label: "Цели",
+    //   href: "/goals",
+    // },
     // {
     //   label: "Pricing",
     //   href: "/pricing",
