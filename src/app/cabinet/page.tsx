@@ -44,24 +44,16 @@ export default function Profile() {
   );
 }
 
-function NotUser() {
-  return (
-    <>
+function NotUser(){
+
+  return <>
+    <Link href='/login' className="w-full flex items-center justify-center py-3">
       <p>Войдите или зарегистрируйтесь</p>
-      <Button onClick={signOut}>Выйти</Button>
-    </>
-  );
+    </Link>
+    {/* <Button onClick={signOut} >Выйти</Button> */}
+  </>
 }
 
-//  - мои цели
-//   /users/[userId]/goals
-//   <!-- /goals -->
-//   - мои задачи
-//   /users/[userId]/tasks
-//   <!-- /tasks -->
-//   - мои ревью
-//   /users/[userId]/rewiews
-//   <!-- /rewiews -->
 //   * активное ревью (отображается если сейчас есть активное ревью)
 const menu = [
   {

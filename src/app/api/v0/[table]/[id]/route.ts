@@ -34,7 +34,7 @@ export async function PUT(request: Request, context: Context){
     return Response.json({ error: 'Not Found' }, { status: 404 })
   }
 
-  const data = await request.json()  
+  const {id: itemId, ...data} = await request.json()  
   // @ts-ignore
   const res = await prisma[table].update({where: {id}, data}) 
   return Response.json(res)
