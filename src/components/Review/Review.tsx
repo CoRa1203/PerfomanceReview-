@@ -9,6 +9,7 @@ export function getDateFormate(date: Date | null) {
 }
 
 export default function ReviewView({ review: r }: { review: Review }) {
+  console.log(r)
   return (
     <>
       <Link href={`/reviews/${r.id}`} className=" *:mb-2 ">

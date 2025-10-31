@@ -1,15 +1,20 @@
 'use client'
 
-import { Review, ReviewPOST } from "@/types"
+import { Review, ReviewPOST, Task } from "@/types"
 import Form, {Field} from '@/components/Form'
 import { useRouter } from "next/navigation"
-import { APIFeedback, APIReview } from "@/lib/API"
+import { APIFeedback, APIReview, CRUD } from "@/lib/API"
 import { useQueryData } from "@/hooks/useQueryData"
 import AlertError from "@/shared/ui/AlertError"
 import LoadingAlert from "@/shared/ui/Loader/LoadingAlert"
+import { useEffect } from "react"
 
 
 const fields: Field[] = [
+  // {
+  //   type: 'options',
+  //   name: 
+  // }
   {
     type: 'date',
     name: 'dateStart',
@@ -33,10 +38,16 @@ const fields: Field[] = [
 ]
 
 
-
 export default function ReviewForm({review}: {review?: Review}){
   const router = useRouter()
-  const { query, isLoading, errorMessage } = useQueryData()
+  const { query, date:  isLoading, errorMessage } = useQueryData()
+  useEffect(()=>{
+    const userId = review?.employeeId
+    const APIUserGoal = new CRUD(`/v0/user/${userId}/goal`)
+    query(APIUserGoal.getList() 
+      //.then((goals: Task[]) => goals.filter(g => ! g.isActiv ))
+    )
+  }, [])
 
   function handleSubmit(dateForm: any){
     const date = {  
