@@ -11,6 +11,7 @@ import Form, {Field} from '@/components/Form'
 import { useQueryData } from "@/hooks/useQueryData";
 import AlertError from "@/shared/ui/AlertError";
 import LoadingAlert from "@/shared/ui/Loader/LoadingAlert";
+import InputReviewUser from "../Inputs/InputReviewUser";
 
 const fields: Field[] = [
   {
@@ -34,6 +35,24 @@ const fields: Field[] = [
     name: 'description',
     label: 'Описание',
   },
+  {
+    type: 'number',
+    name: 'progress',
+    label: '% выполнения',
+  },
+  {
+    type: 'number',
+    name: 'coefficient',
+    label: 'Коэфициент',
+  },
+  {
+    type: 'text',
+    name: 'project',
+    label: 'Проект',
+  },
+  // {
+  //   name: 'reviewId',
+  // },
 ]
 
 export type TaskDefault = {
@@ -58,6 +77,7 @@ export type TaskDefault = {
 export default function FormTask({ goalData }: { goalData?: TaskDefault }) {
   const router = useRouter();
   const { query, isLoading, errorMessage } = useQueryData()
+  const [ reviewId, setReviewId ] = useState<string | null>()
 
   async function save(data) {
     // console.log('save', data)
@@ -65,6 +85,11 @@ export default function FormTask({ goalData }: { goalData?: TaskDefault }) {
       ...data,
       dateStart: data.dateStart ? new Date(data.dateStart) : null,
       dateEnd: data.dateEnd ? new Date(data.dateEnd) : null,
+
+      coefficient: data.coefficient ? +data.coefficient : 1,
+      progress: data.progress ? +data.progress : 0,
+
+      reviewId: reviewId ? +reviewId : undefined,
     }
     // console.log('dateTask', dateTask)
 
@@ -98,12 +123,20 @@ export default function FormTask({ goalData }: { goalData?: TaskDefault }) {
         {/* <p> Исполнитель {goalData?.executorId} </p> */}
       </div>
       
+      { (goalData?.executorId && goalData.isTarget) && 
+        <InputReviewUser 
+          userId={goalData?.executorId}
+          defaultValue={goalData.reviewId}
+          onInput={setReviewId} 
+        /> 
+      }
       <Form 
         fields={fields} 
         defaultValues={goalData} 
         onSubmit={save} 
         classNameitems="w-[400px]"
-      />
+      >
+      </Form>
     </>
   );
 }

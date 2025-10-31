@@ -33,6 +33,7 @@ export default function FormComponent({
   ButtonName,
   className,
   classNameitems,
+  children,
 }: {
   fields: Field[],
   defaultValues?: any,
@@ -40,6 +41,7 @@ export default function FormComponent({
   ButtonName?: string,
   className?: string,
   classNameitems?: string,
+  children?: React.ReactNode,
 }){
 
   classNameitems = classNameitems || "w-[284px]"
@@ -71,6 +73,8 @@ export default function FormComponent({
 
   return <>
     <Form className={ className || "w-full max-w-xs"} onSubmit={onSubmitForm}>
+
+      {children}
 
       {fieldsForm.map(field=> 
         {switch(field.type){
