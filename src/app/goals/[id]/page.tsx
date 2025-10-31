@@ -15,6 +15,7 @@ import {
   ModalBody,
 } from "@heroui/react";
 import ButtonCopyText from "@/components/ButtonCopyText";
+import ButtonCopyLink from "@/components/ButtonCopyLink";
 
 // const ROOT_URL_API = "http://192.168.137.1:3000/api";
 const ROOT_URL_API = process.env.NEXT_PUBLIC_HOST + `/api`;
@@ -89,6 +90,19 @@ export default function Goal() {
           Создать задачу
         </Button>
       </div>
+      {goal?.id && <>
+        {/* TODO вывести число отзывов которые уже оставили */}
+        <h1> Отзывы </h1>
+        <p> 
+          Скопируй ссылу и отправь ее тем кто сможет оставить отзыв о твоей работе над этой задаче. 
+          Отзыв должны оставить: твой руководитель, 3 твоих коллеги и ты сам.
+        </p>
+        <div className=" *:mr-2 " >
+          <ButtonCopyLink text={process.env.NEXT_PUBLIC_HOST + `/target/${goal?.id}/feedback`}>
+            Скопировать ссылку для фидбека
+          </ButtonCopyLink>
+        </div>
+      </>}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
