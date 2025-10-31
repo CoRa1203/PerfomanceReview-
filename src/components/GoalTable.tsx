@@ -60,17 +60,17 @@ export default function GoalsTable({goals}: {goals: Goal[]}) {
   const handleEditGoal = (goalId: string) => {
     router.push(`/goals/${goalId}/edit`);
   };
-  const renderCell = React.useCallback((goals: Goal, columnKey: string) => {
+  const renderCell = React.useCallback((goal: Goal, columnKey: string) => {
     switch (columnKey) {
       case "goal":
-        return <div className="truncate max-w-full">{goals.title}</div>;
+        return <div className="truncate max-w-full">{goal.title}</div>;
       case "description":
-        return <div className="truncate max-w-full">{goals.description}</div>;
+        return <div className="truncate max-w-full">{goal.description}</div>;
       case "actions":
         return (
           <div className="relative flex items-center justify-end min-w-max">
             <Tooltip content="Детали">
-              <Link href={`/goals/${goals.id}`}>
+              <Link href={`/goals/${goal.id}`}>
                 <Button variant="light" isIconOnly size="sm">
                   <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                     <More />
@@ -81,7 +81,7 @@ export default function GoalsTable({goals}: {goals: Goal[]}) {
             <Tooltip content="Редактировать">
               <Button
                 variant="light"
-                onPress={() => handleEditGoal(goals.id)}
+                onPress={() => handleEditGoal(goal.id)}
                 isIconOnly
                 size="sm"
               >
@@ -95,7 +95,7 @@ export default function GoalsTable({goals}: {goals: Goal[]}) {
                 isIconOnly
                 variant="light"
                 size="sm"
-                onPress={() => deleteGoal(goals.id)}
+                onPress={() => deleteGoal(goal.id)}
               >
                 <span className="text-lg text-danger cursor-pointer active:opacity-50">
                   <Delete />

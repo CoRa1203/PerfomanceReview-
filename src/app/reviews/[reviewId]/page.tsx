@@ -28,7 +28,7 @@ export default function Review(){
       {/* <ButtonLink href={`/reviews/${reviewId}/settings`}>
         Настройки    
       </ButtonLink> */}
-      <ButtonLink href={`/reviews/${reviewId}/edit`}>
+      <ButtonLink  href={`/reviews/${reviewId}/edit`}>
         Редактировать
       </ButtonLink>
       <ButtonLink href={`/reviews/${reviewId}/result`}>

@@ -2,6 +2,7 @@
 
 import { Review } from "@prisma/client";
 import ReviewView from "./Review";
+import dayjs from 'dayjs'
 import {
   Table,
   TableHeader,
@@ -23,56 +24,59 @@ export const columns = [
   { name: "КОНЕЦ РЕВЬЮ", uid: "end" },
   { name: "ПОДВЕДЕНИЕ РЕЗУЛЬТАТОВ", uid: "resultsDate" },
   { name: "СТАТУС", uid: "status" },
-  { name: "perfomance", uid: "perfomance" },
-  { name: "potential", uid: "potential" },
-  { name: "РЕЗУЛЬТАТ", uid: "results" },
-  { name: "РЕКОМЕНДАЦИИ", uid: "recommendation" },
+   { name: "ДЕЙСТВИЯ", uid: "actions" },
+  // { name: "perfomance", uid: "perfomance" },
+  // { name: "potential", uid: "potential" },
+  // { name: "РЕЗУЛЬТАТ", uid: "results" },
+  // { name: "РЕКОМЕНДАЦИИ", uid: "recommendation" },
 ];
 
-export default function Reviews({ reviews }: { reviews: Review[] }) {
-  const statusMark = {
-    active: "success",
-    paused: "danger",
-  };
+export function getDateFormate(date: Date | null){
+  return date && dayjs(date).format('DD.MM.YYYY')
+}
 
-  const renderCell = React.useCallback((review, columnKey) => {
+export default function Reviews({ reviews }: { reviews: Review[] }) {
+  const statusColor = {
+  true: "success",  
+  false: "danger",   
+};
+
+const statusText = {
+  true: "Завершен",
+  false: "Активен",
+};
+
+  const renderCell = React.useCallback((review: Review, columnKey: string) => {
     const cellValue = review[columnKey];
 
     switch (columnKey) {
       case "start":
-        return <p>{review.dateStart}</p>;
+        return <p>{getDateFormate(review.dateStart)}</p>;
       case "end":
-        return <p>{review.dateEnd}</p>;
+        return <p>{getDateFormate(review.dateEnd)}</p>;
       case "resultsDate":
-        return <p>{review.dateRes}</p>;
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusMark[review.dateRes]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
+        return <p>{getDateFormate(review.dateRes)}</p>;
+      case "status": {
+  const isEnd = Boolean(review.isEnd); // убедимся, что это boolean
+  return (
+    <Chip
+      className="capitalize"
+      color={statusColor[isEnd.toString()]} // или используйте напрямую:
+      // color={review.isEnd ? "success" : "danger"}
+      size="sm"
+      variant="flat"
+    >
+      {statusText[isEnd.toString()]}
+    </Chip>
+  );
+}
       case "perfomance":
         return <p>{review.perfomance}</p>;
-      case "potential":
-        return <p>{review.potential}</p>;
-          case "results":
-        return <p>{review.potential}</p>;
-         case "recommendation":
-        return <p>{review.recommendation}</p>;
-      default:
-        return cellValue;
-    }
-  }, []);
-  return (
-    <>
-     <div className="relative flex items-center justify-end min-w-max">
+         case "actions":
+        return (
+          <div className="relative flex items-center justify-end min-w-max">
             <Tooltip content="Детали">
-              <Link href={`/reviews/${reviews.id}`}>
+              <Link href={`/reviews/${review.id}`}>
                 <Button variant="light" isIconOnly size="sm">
                   <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                     <More />
@@ -80,8 +84,20 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
                 </Button>
               </Link>
             </Tooltip>
-         
           </div>
+        );
+      // case "potential":
+      //   return <p>{review.potential}</p>;
+      //     case "results":
+      //   return <p>{review.results}</p>;
+      //    case "recommendation":
+      //   return <p>{review.recommendation}</p>;
+      default:
+        return cellValue;
+    }
+  }, []);
+  return (
+    <>
       <Table
         aria-label="Example table with custom cells"
         classNames={{
@@ -100,18 +116,19 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
      <TableBody>
   {reviews.map((review) => (
     <TableRow key={review.id}>
-      <TableCell>{review.dateStart}</TableCell>
-      <TableCell>{review.dateEnd}</TableCell>
-      <TableCell>{review.dateRes}</TableCell>
+      <TableCell>{renderCell(review, 'start')}</TableCell>
+      <TableCell>{renderCell(review, 'end')}</TableCell>
+      <TableCell> {renderCell(review, 'resultsDate')}</TableCell>
       <TableCell>
-        <span className={`status-badge ${review.status}`}>
-          {review.isEnd}
+        <span className={`status-badge ${review.isEnd}`}>
+          {renderCell(review, 'status')}
         </span>
       </TableCell>
-      <TableCell>{review.performance|| "-"}</TableCell>
+            <TableCell> {renderCell(review, 'actions')}</TableCell>
+      {/* <TableCell>{review.performance|| "-"}</TableCell>
       <TableCell>{review.potential|| "-"}</TableCell>
       <TableCell>{review.results || "-"}</TableCell>
-      <TableCell>{review.recommendation || "-"}</TableCell>
+      <TableCell>{review.recommendation || "-"}</TableCell> */}
     </TableRow>
   ))}
 </TableBody>
