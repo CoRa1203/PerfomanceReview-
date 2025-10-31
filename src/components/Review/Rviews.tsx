@@ -82,23 +82,34 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={reviews}>
-        {(review) => (
-          <TableRow key={review.id}>
-            {(columnKey) => <TableCell>{renderCell(review, columnKey)}</TableCell>}
-          </TableRow>
-        )}
-      </TableBody>
+     <TableBody>
+  {reviews.map((review) => (
+    <TableRow key={review.id}>
+      <TableCell>{review.dateStart}</TableCell>
+      <TableCell>{review.dateEnd}</TableCell>
+      <TableCell>{review.dateRes}</TableCell>
+      <TableCell>
+        <span className={`status-badge ${review.status}`}>
+          {review.isEnd}
+        </span>
+      </TableCell>
+      <TableCell>{review.performance|| "-"}</TableCell>
+      <TableCell>{review.potential|| "-"}</TableCell>
+      <TableCell>{review.results || "-"}</TableCell>
+      <TableCell>{review.recommendation || "-"}</TableCell>
+    </TableRow>
+  ))}
+</TableBody>
        
       </Table>
-      <div className=" *:mb-5 ">
+      {/* <div className=" *:mb-5 ">
         {reviews.map((review) => (
           <div key={review.id}>
             <ReviewView review={review} />
             <hr />
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 }

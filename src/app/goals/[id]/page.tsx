@@ -14,6 +14,7 @@ import {
   ModalHeader,
   ModalBody,
 } from "@heroui/react";
+import ButtonCopyText from "@/components/ButtonCopyText";
 
 // const ROOT_URL_API = "http://192.168.137.1:3000/api";
 const ROOT_URL_API = process.env.NEXT_PUBLIC_HOST + `/api`;
@@ -74,16 +75,17 @@ export default function Goal() {
           <p className="break-words whitespace-normal">{goal?.description}</p> {/* Разрешен перенос слов */}
         </div>
         <div className="flex gap-2 flex-shrink-0"> {/* Кнопки не сжимаются */}
-          <Button onPress={handleEditGoal}>
+          <ButtonCopyText text={goal?.description}/>
+          <Button variant="light" isIconOnly onPress={handleEditGoal}>
             <Edit />
           </Button>
-          <Button onPress={deleteGoal}>
+          <Button variant="light" isIconOnly onPress={deleteGoal}>
             <Delete />
           </Button>
         </div>
       </div>
       <div>
-        <Button color="primary" onPress={onOpen}>
+        <Button  color="primary" onPress={onOpen}>
           Создать задачу
         </Button>
       </div>

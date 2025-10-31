@@ -46,7 +46,7 @@ export default function Profile() {
   return (
     <>
       {userId ? (
-        <>
+        <div className='flex flex-col  gap-4 '>
           {errorMessage && (
             <AlertError> Не удалось получить пользователя </AlertError>
           )}
@@ -66,7 +66,7 @@ export default function Profile() {
               </Button>
             </div>
           </>}
-        </>
+        </div>
       ) : (
         <NotUser />
       )}
