@@ -10,14 +10,14 @@ export const siteConfig = {
     },
 
     // для теста  // TODO (потом перенести в админку)
-    {
-      label: "Ревью",
-      href: "/reviews",
-    },
-    {
-      label: "Цели",
-      href: "/goals",
-    },
+    // {
+    //   label: "Ревью",
+    //   href: "/reviews",
+    // },
+    // {
+    //   label: "Цели",
+    //   href: "/goals",
+    // },
   ],
   navMenuItems: [
     // {
