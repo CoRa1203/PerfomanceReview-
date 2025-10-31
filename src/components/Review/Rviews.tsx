@@ -12,8 +12,11 @@ import {
   User,
   Chip,
   Tooltip,
+  Button,
 } from "@heroui/react";
 import React from "react";
+import Link from "next/link";
+import { More } from "../icons";
 
 export const columns = [
   { name: "НАЧАЛО РЕВЬЮ", uid: "start" },
@@ -67,6 +70,18 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
   }, []);
   return (
     <>
+     <div className="relative flex items-center justify-end min-w-max">
+            <Tooltip content="Детали">
+              <Link href={`/reviews/${reviews.id}`}>
+                <Button variant="light" isIconOnly size="sm">
+                  <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                    <More />
+                  </span>
+                </Button>
+              </Link>
+            </Tooltip>
+         
+          </div>
       <Table
         aria-label="Example table with custom cells"
         classNames={{
@@ -77,7 +92,7 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
       >
       <TableHeader columns={columns}>
         {(column) => (
-          <TableColumn key={column.uid} >
+          <TableColumn className=" whitespace-normal break-words overflow-visible" key={column.uid} >
             {column.name}
           </TableColumn>
         )}

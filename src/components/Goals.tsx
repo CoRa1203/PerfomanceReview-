@@ -1,33 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import {
-//   Table,
-//   TableHeader,
-//   TableColumn,
-//   TableBody,
-//   TableRow,
-//   TableCell,
-//   Modal,
-//   useDisclosure,
-//   Button,
-//   ModalContent,
-//   ModalBody,
-//   Tooltip,
-// } from "@heroui/react";
 import GoalsTable from "./GoalTable";
-
-import { Add, Delete, Edit, More } from "./icons";
 import { Goal } from "@/types";
 import { APITask } from "@/lib/API/functionAPI";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import FormGoal from "./Forms/FormGoal";
+import { Task } from "@/types";
 
-export const columns = [
-  { name: "ЦЕЛЬ", uid: "goal" },
-  { name: "ОПИСАНИЕ", uid: "description" },
-  { name: "ДЕЙСТВИЯ", uid: "actions" },
-];
 
 export default function Goals() {
   
