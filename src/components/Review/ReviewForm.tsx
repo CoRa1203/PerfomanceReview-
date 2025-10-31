@@ -62,7 +62,10 @@ export default function ReviewForm({review}: {review?: Review}){
   return <>
     {errorMessage && <AlertError/>}
     {isLoading && <LoadingAlert />}
+    <div className='flex flex-col w-80 mt-20 gap-4'>
+    <h1 className="text-2xl">Заполнить ревью</h1>
     <Form fields={fields} defaultValues={review} onSubmit={handleSubmit} ButtonName={'Сохранить'} />
+    </div>
   </>
 
 }

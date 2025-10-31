@@ -136,7 +136,7 @@ export default function FormComponent({
         }
       )}
 
-      <Button className={classNameitems} type='submit'> { ButtonName || 'Сохранить'} </Button>
+      <Button color="primary" className={classNameitems} type='submit'> { ButtonName || 'Сохранить'} </Button>
     </Form>  
   </>
 }
