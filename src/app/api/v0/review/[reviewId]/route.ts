@@ -19,8 +19,12 @@ export async function GET(request: Request, context: Context){
       employee: true,
       tasks: { 
         include: {
-          feedbacks: true,
-        }
+          feedbacks: { 
+            include: { 
+              author: true 
+            }
+          }
+        },
       },
     }
   })

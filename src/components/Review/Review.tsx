@@ -9,13 +9,10 @@ export function getDateFormate(date: Date | null) {
 }
 
 export default function ReviewView({ review: r }: { review: Review }) {
-  console.log(r)
   return (
     <>
       <Link href={`/reviews/${r.id}`} className=" *:mb-2 ">
         <p>Ревью</p>
-        {/* <p>{r.id}</p> */}
-        {r.employee && <p> Исполнитель {r.employee}</p>}
         {r.dateStart && r.dateEnd && (
           <p>
             Оцениваемый период: {getDateFormate(r.dateStart)} -{" "}
