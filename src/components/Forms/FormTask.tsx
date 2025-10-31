@@ -95,9 +95,7 @@ export default function FormTask({ goalData }: { goalData?: TaskDefault }) {
         {goalData?.id ? <h3>Редактирование цели</h3> : <h3>Создание цели</h3>}
         {errorMessage && <AlertError/>}
         {isLoading && <LoadingAlert />}
-        <p>
-          {goalData?.executorId}
-        </p>
+        {/* <p> Исполнитель {goalData?.executorId} </p> */}
       </div>
       
       <Form 

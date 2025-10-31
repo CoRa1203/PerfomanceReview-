@@ -1,8 +1,14 @@
 // types from Prisma ******************************************************************************************************
+import { User } from '@heroui/user'
 import {  User, Review, Task, Feedback, typeAuthor } from '@prisma/client'
 export type {  User, Review, Task, Feedback, typeAuthor } from '@prisma/client'
 
 // User  ******************************************************************************************************
+
+export type UserGET = User & {
+  lead?: User
+  subordinates?: User[]
+}
 
 // Review  ******************************************************************************************************
 
@@ -25,9 +31,30 @@ export type ReviewPOST = {
 }
 
 // Task  ******************************************************************************************************
+export type TaskPOST = {
+  // id: number;
+  // createdAt: Date;
+  // updatedAt: Date;
+  executorId: string | null;
+  isTarget: boolean | null;
+  title: string;
+  description?: string | null;
+  dateStart?: Date | null;
+  dateEnd?: Date | null;
+  link?: string | null;
+  coefficient?: number;
+  project?: string | null;
+  authorId?: string | null;
+  targetId?: number | null;
+  // progress: number;
+  // reviewId: number | null;
+}
+
 export type TaskGET = Task & {
   executor: User
 }
+
+
 
 
 // Feedback  ******************************************************************************************************
