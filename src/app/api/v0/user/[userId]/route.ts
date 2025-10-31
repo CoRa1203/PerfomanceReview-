@@ -6,7 +6,13 @@ type Context = { params: { userId: string } }
 
 export async function GET(request: Request, context: Context){
   const id = (await context.params).userId
-  const res = await prisma.user.findFirst({where: {id}})
+  const res = await prisma.user.findFirst({
+    where: {id},
+    include: {
+      lead: true,
+      subordinates: true,
+     },
+  })
   if (res) {
     return Response.json(res)
   } else { 
