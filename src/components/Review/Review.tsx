@@ -24,7 +24,7 @@ export default function ReviewView({ review: r }: { review: Review }) {
         {r.recommendation && <p>Рекомендации: {r.recommendation}</p>}
         {r.isEnd ? 'Статус - "завершен"' : 'Статус - "активен"'}
         <Link href={`/users/${r.employeeId}`}>
-          <p>{r.employee?.name ? `Сотрудник` : }Сотрудник {r.employee?.name}</p>
+          <p>{r.employee?.name ? `Сотрудник - ${r.employee?.name}` : 'Сотрудник'}</p>
         </Link>
       </Link>
     </>
