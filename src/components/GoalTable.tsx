@@ -44,7 +44,9 @@ export const columns = [
 
 // }
 
-export default function GoalsTable({goals}: {goals: Goal[]}) {
+// export default function GoalsTable({goals}: {goals: Goal[]}) {
+export default function GoalsTable({goals: goalsDefault}: {goals: Goal[]}){
+  const [ goals, setGoals ] = useState(goalsDefault)
 
   const userId = useParams().userId as string | undefined
 
@@ -54,7 +56,11 @@ export default function GoalsTable({goals}: {goals: Goal[]}) {
  
   async function deleteGoal(goalId: string) {
     await APITask.delete(goalId);
-  router.push("/")
+    // TODO
+    // setGoals(await APIGoal.getList())
+    // router.push("/")
+    // router.refresh()
+    window.location.reload();
   }
 
   const handleEditGoal = (goalId: string) => {

@@ -56,29 +56,38 @@ export default function UserMenuLinks({ user }: { user: UserGET }) {
             </li>
           </Link>
       ))}
-      {user.lead?.id && 
+      {user.lead?.id ?
           <Link href={`/users/${user.lead?.id}`}>
             <li className="dark:hover:bg-gray-900  hover:bg-gray-200 transition-colors duration-500 rounded-xl px-4 py-2 ">
               Руководитель {user.lead?.id ? '' : '- не назначен'}
             </li>
           </Link>
-      }
-      {!!user.subordinates?.length && <>
+        :
+          <Link href={`/users/${user.id}/addlead`}>
             <li className="dark:hover:bg-gray-900  hover:bg-gray-200 transition-colors duration-500 rounded-xl px-4 py-2 ">
-              Подчиненные
-            </li>
-            ы
-        {user.subordinates.map( (u: User, index: number) => 
-          <Link href={`/users/${u.id}`} key={index}>
-            <li className="dark:hover:bg-gray-900  hover:bg-gray-200 transition-colors duration-500 rounded-xl px-4 py-2 ">
-              <div className="ml-5">
-                {u.name || u.email}
-              </div>
+              Добавить руководителя
             </li>
           </Link>
-        )}
-      </>
       }
+      <li className="dark:hover:bg-gray-900  hover:bg-gray-200 transition-colors duration-500 rounded-xl px-4 py-2 ">
+        Подчиненные
+      </li>
+      {user.subordinates.map( (u: User, index: number) => 
+        <Link href={`/users/${u.id}`} key={index}>
+          <li className="dark:hover:bg-gray-900  hover:bg-gray-200 transition-colors duration-500 rounded-xl px-4 py-2 ">
+            <div className="ml-5">
+              {u.name || u.email}
+            </div>
+          </li>
+        </Link>
+      )}
+      {/* <Link href={`/users/${user.id}/addsubordinate`}>
+        <li className="dark:hover:bg-gray-900  hover:bg-gray-200 transition-colors duration-500 rounded-xl px-4 py-2 ">
+          <div className="ml-5">
+            Добавить подчиненного
+          </div>
+        </li>
+      </Link> */}
     </ul>
   );
 }
