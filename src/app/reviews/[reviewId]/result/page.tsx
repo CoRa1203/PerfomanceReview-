@@ -2,7 +2,7 @@
 
 import ReviewResult from '@/components/Review/Result/ReviewResult'
 import { useQueryData } from '@/hooks/useQueryData'
-import { APIReview } from '@/lib/API'
+import { APIReviewRes } from '@/lib/API'
 import AlertError from '@/shared/ui/AlertError'
 import LoadingAlert from '@/shared/ui/Loader/LoadingAlert'
 import { useParams } from 'next/navigation'
@@ -11,10 +11,10 @@ import { useEffect } from 'react'
 
 export default function Review(){
   const params = useParams()
-  const reviewId = params.reviewId as string
+  const reviewId = params.reviewId  as string | undefined
   const {query, data: review, isLoading, errorMessage, setErrorMessage} = useQueryData()
   useEffect(()=>{
-    reviewId && query(APIReview.get(reviewId))
+    reviewId && query(APIReviewRes.get(reviewId))
   },[])
 
   return <>

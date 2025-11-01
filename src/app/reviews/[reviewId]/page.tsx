@@ -3,7 +3,7 @@
 import ButtonCopyLink from '@/components/ButtonCopyLink'
 import ReviewPage from '@/components/Review/ReviewPage'
 import { useQueryData } from '@/hooks/useQueryData'
-import { APIReview } from '@/lib/API'
+import { APIReviewRes } from '@/lib/API'
 import AlertError from '@/shared/ui/AlertError'
 import ButtonLink from "@/shared/ui/ButtonLink"
 import LoadingAlert from '@/shared/ui/Loader/LoadingAlert'
@@ -13,10 +13,10 @@ import { useEffect } from 'react'
 
 export default function Review(){
   const params = useParams()
-  const reviewId = params.reviewId
+  const reviewId = params.reviewId as string | undefined
   const {query, data: review, isLoading, errorMessage, setErrorMessage} = useQueryData()
   useEffect(()=>{
-    reviewId && query(APIReview.get(reviewId))
+    reviewId && query(APIReviewRes.get(reviewId))
   },[])
 
   return <>

@@ -12,7 +12,7 @@ import { useEffect } from 'react'
 
 export default function Review(){
   const params = useParams()
-  const reviewId = params.reviewId
+  const reviewId = params.reviewId as string | undefined
   const {query, data: review, isLoading, errorMessage, setErrorMessage} = useQueryData()
   useEffect(()=>{
     reviewId && query(APIReview.get(reviewId))
