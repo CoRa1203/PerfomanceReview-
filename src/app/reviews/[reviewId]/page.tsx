@@ -1,6 +1,7 @@
 'use client'
 
-import ReviewView from '@/components/Review/Review'
+import ButtonCopyLink from '@/components/ButtonCopyLink'
+import ReviewPage from '@/components/Review/ReviewPage'
 import { useQueryData } from '@/hooks/useQueryData'
 import { APIReview } from '@/lib/API'
 import AlertError from '@/shared/ui/AlertError'
@@ -22,7 +23,7 @@ export default function Review(){
     {errorMessage && <AlertError> Не удалось получить данные </AlertError>}
     {isLoading && <LoadingAlert />}
 
-    {review && <ReviewView review={review} /> }
+    {review && <ReviewPage review={review} /> }
 
     <div className=" mt-5 *:mr-2 ">
       {/* <ButtonLink href={`/reviews/${reviewId}/settings`}>
@@ -31,6 +32,12 @@ export default function Review(){
       <ButtonLink  href={`/reviews/${reviewId}/edit`}>
         Редактировать
       </ButtonLink>
+      <ButtonLink href={process.env.NEXT_PUBLIC_HOST + `/reviews/${reviewId}/feedback`} >
+        Поставить оценку результативности и потенциала
+      </ButtonLink>
+      {/* <ButtonCopyLink text={process.env.NEXT_PUBLIC_HOST + `/reviews/${review.id}/feedback`}>
+        Скопировать ссылку для фидбека
+      </ButtonCopyLink> */}
       <ButtonLink href={`/reviews/${reviewId}/result`}>
         Результат    
       </ButtonLink>

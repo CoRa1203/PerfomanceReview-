@@ -1,7 +1,6 @@
 "use client";
 
 import { Review } from "@prisma/client";
-import ReviewView from "./Review";
 import dayjs from 'dayjs'
 import {
   Table,
