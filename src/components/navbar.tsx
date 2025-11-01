@@ -16,11 +16,20 @@ import { signOut } from "next-auth/react";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo, LogIn, LogOut } from "@/components/icons";
+import { useEffect, useState } from "react";
+import { APIUser } from "@/lib/API";
+import { User } from "@/types";
 
 export const Navbar = () => {
-  const { data: session, status } = useSession();
+  const { data, status } = useSession();
   const isAuthenticated = status === "authenticated";
-  
+
+  const [user, setUser] = useState<User>()
+  useEffect(()=>{
+    data?.user?.id && APIUser.get(data.user.id).then(user => setUser(user))
+  },[])
+  const userName = user?.name || user?.email
+
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
@@ -62,6 +71,9 @@ export const Navbar = () => {
           <>
             <NavbarItem className="hidden sm:flex gap-2">
               <ThemeSwitch />
+            </NavbarItem>
+            <NavbarItem className="hidden sm:flex gap-2">
+              {userName}
             </NavbarItem>
             <NavbarItem>
               <Button
