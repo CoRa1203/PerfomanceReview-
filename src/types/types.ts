@@ -39,7 +39,7 @@ export type ReviewGET = Review & {
   author?:    User
   employee?:  User   
   tasks?:     TaskGET[]
-  feedbacks:  FeedbackGET[]
+  feedbacks?:  FeedbackGET[]
 }
 
 // Task  ******************************************************************************************************

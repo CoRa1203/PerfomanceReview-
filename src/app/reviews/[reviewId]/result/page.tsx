@@ -1,6 +1,6 @@
 'use client'
 
-import ReviewResult from '@/components/Review/ReviewResult'
+import ReviewResult from '@/components/Review/Result/ReviewResult'
 import { useQueryData } from '@/hooks/useQueryData'
 import { APIReview } from '@/lib/API'
 import AlertError from '@/shared/ui/AlertError'
@@ -11,7 +11,7 @@ import { useEffect } from 'react'
 
 export default function Review(){
   const params = useParams()
-  const reviewId = params.reviewId
+  const reviewId = params.reviewId as string
   const {query, data: review, isLoading, errorMessage, setErrorMessage} = useQueryData()
   useEffect(()=>{
     reviewId && query(APIReview.get(reviewId))
