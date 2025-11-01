@@ -30,6 +30,18 @@ export type ReviewPOST = {
   employeeId: string | null;
 }
 
+// export type TaskFeedbacks = Task & {
+//   feedbacks:  FeedbackGET
+//   executor:   User
+// }
+
+export type ReviewGET = Review & {
+  author?:    User
+  employee?:  User   
+  tasks?:     TaskGET[]
+  feedbacks:  FeedbackGET[]
+}
+
 // Task  ******************************************************************************************************
 export type TaskPOST = {
   // id: number;
@@ -51,7 +63,8 @@ export type TaskPOST = {
 }
 
 export type TaskGET = Task & {
-  executor: User
+  executor?:    User
+  feedbacks?:   FeedbackGET[]
 }
 
 
@@ -69,4 +82,8 @@ export type FeedbackPOST = {
   typeAuthor:  typeAuthor | null;
   // typeAuthor: $Enums.typeAuthor | null;
   // response: JsonValue;
+}
+
+export type FeedbackGET = Feedback & {
+  author?: User | null
 }

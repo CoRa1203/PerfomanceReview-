@@ -17,6 +17,7 @@ export async function GET(request: Request, context: Context){
     where: {id},
     include: {
       employee: true,
+      feedbacks: true,
       tasks: { 
         include: {
           feedbacks: { 
