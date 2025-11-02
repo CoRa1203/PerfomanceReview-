@@ -57,11 +57,11 @@ const statusText = {
       case "resultsDate":
         return <p>{getDateFormate(review.dateRes)}</p>;
       case "status": {
-  const isEnd = Boolean(review.isEnd); // убедимся, что это boolean
+  const isEnd = Boolean(review.isEnd); 
   return (
     <Chip
       className="capitalize"
-      color={statusColor[isEnd.toString()]} // или используйте напрямую:
+      color={statusColor[isEnd.toString()]} 
       // color={review.isEnd ? "success" : "danger"}
       size="sm"
       variant="flat"

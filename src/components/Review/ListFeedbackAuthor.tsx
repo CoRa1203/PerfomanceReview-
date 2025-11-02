@@ -17,6 +17,7 @@ export default function ListFeedbackAuthor({
       <p>Цель: {t.title}</p>
       {t.feedbacks?.map( f => <div key={f.id}>
         <p className="ml-5" >Автор отзыва: {f.author.name || f.author.email}</p>
+        <p>Тип отзыва: {} </p>
         {/* TODO вывести тип отзыва */}
       </div>)}
     </div>) 

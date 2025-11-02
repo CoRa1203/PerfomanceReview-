@@ -18,11 +18,16 @@ import {
 import ButtonCopyText from "@/components/ButtonCopyText";
 import ButtonCopyLink from "@/components/ButtonCopyLink";
 import { APIUser } from "@/lib/API";
+import dayjs from "dayjs";
 
 // const ROOT_URL_API = "http://192.168.137.1:3000/api";
 const ROOT_URL_API = process.env.NEXT_PUBLIC_HOST + `/api`;
 const url = ROOT_URL_API + "/v0/task";
 const urlGoal = ROOT_URL_API + "/v0/goal/";
+
+export function getDateFormate(date?: Date | null) {
+  return date ? dayjs(date).format("DD.MM.YYYY") : "";
+}
 
 export default function Goal() {
   const params = useParams();
@@ -31,10 +36,10 @@ export default function Goal() {
   const [goal, setGoal] = useState<Task>();
   const [tasks, setTasks] = useState<Task>();
   const { onOpen, isOpen, onOpenChange } = useDisclosure();
-  const [ user, setUser ] = useState<User>()
-  useEffect(()=>{
-    goal?.executorId && APIUser.get(goal?.executorId).then(setUser)
-  }, [goal])
+  const [user, setUser] = useState<User>();
+  useEffect(() => {
+    goal?.executorId && APIUser.get(goal?.executorId).then(setUser);
+  }, [goal]);
 
   useEffect(() => {
     async function getGoalData() {
@@ -59,7 +64,7 @@ export default function Goal() {
 
   async function deleteGoal() {
     await APITask.delete(id);
-     router.push(`/`);
+    router.push(`/`);
   }
 
   async function deleteTask(id: string) {
@@ -71,24 +76,37 @@ export default function Goal() {
     router.push(`/goals/${id}/edit`); // открываем форму редактирования
   };
 
-   const handleEditTask = (taskId: string) => {
+  const handleEditTask = (taskId: string) => {
     router.push(`/goals/${id}/${taskId}/edit`); // открываем форму редактирования
   };
+
+  console.log(goal);
   return (
-     <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4">
       <div className="flex gap-4 justify-between">
-        <div className="flex flex-col flex-1 min-w-0 gap-2"> {/* Добавлены классы для правильного переноса */}
-          <h1 className="text-2xl break-words whitespace-normal"> Цель: {goal?.title}</h1> {/* Разрешен перенос слов */}
-          <p >
-            Исполнитель: 
+        <div className="flex flex-col flex-1 min-w-0 gap-2">
+          <h1 className="text-2xl break-words whitespace-normal">
+            Цель: {goal?.title}
+          </h1>
+          <p>
+            Исполнитель:
             <Link href={`/users/${goal?.executorId}`} className="mx-2">
               {user?.name || user?.email}
             </Link>
           </p>
-          <p className="break-words whitespace-normal">Описание: {goal?.description}</p> {/* Разрешен перенос слов */}
+          <p className="break-words whitespace-normal">
+            Описание: {goal?.description}
+          </p>
+          <p>{getDateFormate(goal?.dateStart)}</p>
+          <p>{getDateFormate(goal?.dateEnd)}</p>
+          {/* <p>{goal?.link}</p> */}
+          <p>Прогресс:{` ${goal?.progress}%`}</p>
+            <p>Проект:{` ${goal?.project}`}</p>
+             <p>Коэффицент:{` ${goal?.coefficient}`}</p>
+             
         </div>
-        <div className="flex gap-2 flex-shrink-0"> {/* Кнопки не сжимаются */}
-          <ButtonCopyText text={goal?.description}/>
+        <div className="flex gap-2 flex-shrink-0">
+          <ButtonCopyText text={goal?.description} />
           <Button variant="light" isIconOnly onPress={handleEditGoal}>
             <Edit />
           </Button>
@@ -98,24 +116,30 @@ export default function Goal() {
         </div>
       </div>
       <div>
-        <Button  color="primary" onPress={onOpen}>
+        <Button color="primary" onPress={onOpen}>
           Создать задачу
         </Button>
       </div>
-      {(goal?.id && goal?.reviewId ) && 
-      <>
-        {/* TODO вывести число отзывов которые уже оставили */}
-        <h1> Отзывы для ревью №{goal?.reviewId}</h1>
-        <p> 
-          Скопируй ссылу и отправь ее тем кто сможет оставить отзыв о твоей работе над этой задаче. 
-          Отзыв должны оставить: твой руководитель, 3 твоих коллеги и ты сам.
-        </p>
-        <div className=" *:mr-2 " >
-          <ButtonCopyLink text={process.env.NEXT_PUBLIC_HOST + `/target/${goal?.id}/feedback`}>
-            Скопировать ссылку для фидбека
-          </ButtonCopyLink>
-        </div>
-      </>}
+      {goal?.id && goal?.reviewId && (
+        <>
+          {/* TODO вывести число отзывов которые уже оставили */}
+          <h1> Отзывы для ревью №{goal?.reviewId}</h1>
+          <p>
+            Скопируй ссылу и отправь ее тем кто сможет оставить отзыв о твоей
+            работе над этой задаче. Отзыв должны оставить: твой руководитель, 3
+            твоих коллеги и ты сам.
+          </p>
+          <div className=" *:mr-2 ">
+            <ButtonCopyLink
+              text={
+                process.env.NEXT_PUBLIC_HOST + `/target/${goal?.id}/feedback`
+              }
+            >
+              Скопировать ссылку для фидбека
+            </ButtonCopyLink>
+          </div>
+        </>
+      )}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
@@ -130,25 +154,37 @@ export default function Goal() {
           )}
         </ModalContent>
       </Modal>
-      <ul className="space-y-2"> {/* Добавлен отступ между элементами */}
+      <ul className="space-y-2">
+        {" "}
+        {/* Добавлен отступ между элементами */}
         {tasks?.map((task) => (
           <li
             key={task.id}
-            className="flex justify-between items-start gap-4 p-4 border-b-1 border-b-blue-100" 
+            className="flex justify-between items-start gap-4 p-4 border-b-1 border-b-blue-100"
           >
-            <div className="flex-1 min-w-0 break-words"> {/* Разрешен перенос текста */}
-              <h3 className="text-xl font-medium break-words whitespace-normal"> {/* Перенос заголовка */}
+            <div className="flex-1 min-w-0 break-words">
+              <h3 className="text-xl font-medium break-words whitespace-normal">
                 {task.title}
               </h3>
-              <p className="text-gray-600 break-words whitespace-normal mt-1"> {/* Перенос описания */}
+              <p className="text-gray-600 break-words whitespace-normal mt-1">
                 {task.description}
               </p>
             </div>
-            <div className="flex gap-2 flex-shrink-0"> {/* Кнопки не сжимаются */}
-              <Button isIconOnly variant="light" onPress={() => handleEditTask(task.id)} size="sm">
+            <div className="flex gap-2 flex-shrink-0">
+              <Button
+                isIconOnly
+                variant="light"
+                onPress={() => handleEditTask(task.id)}
+                size="sm"
+              >
                 <Edit />
               </Button>
-              <Button isIconOnly variant="light" onPress={() => deleteTask(task.id)} size="sm">
+              <Button
+                isIconOnly
+                variant="light"
+                onPress={() => deleteTask(task.id)}
+                size="sm"
+              >
                 <Delete />
               </Button>
             </div>
