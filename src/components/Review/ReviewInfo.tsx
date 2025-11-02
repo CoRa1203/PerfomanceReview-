@@ -3,7 +3,6 @@
 import { ReviewGET, Review, TaskGET, FeedbackGET } from "@/types";
 import { Link } from "@heroui/react";
 import dayjs from "dayjs";
-import ListFeedback from "./ListFeedback";
 
 export function getDateFormate(date: Date | null) {
   return date && dayjs(date).format("DD.MM.YYYY");

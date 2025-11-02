@@ -2,7 +2,7 @@
 
 import { ReviewGET, Review, TaskGET, FeedbackGET } from "@/types";
 import ReviewInfo from "./ReviewInfo";
-import ListFeedback from "./ListFeedback";
+import ListFeedback from "@/components/Feedback/ListFeedback";
 
 export default function ReviewPage({ review }: { review: ReviewGET }) {
   // console.log(review) 

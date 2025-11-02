@@ -2,7 +2,7 @@
 
 import { Review, ReviewGET, TaskGET } from '@/types';
 import ReviewInfo from '../ReviewInfo';
-import ListFeedback from '../ListFeedback';
+import ListFeedback from "@/components/Feedback/ListFeedback";
 import Matrix, {Point} from './Matrix'
 import Text from './Text'
 import {types} from './config'
@@ -50,7 +50,7 @@ export default function ReviewResult({review}: {review: ReviewGET}){
       <br />
       {/* <p>Фидбеки:</p>  // TODO */}
       { (review.tasks && review.feedbacks ) ?
-        <ListFeedback tasks={review.tasks} feedbacks={review.feedbacks} />
+        <ListFeedback tasks={review.tasks} feedbacks={review.feedbacks} viewResponse={true} />
         :
         <p>Отзывы отсутствуют</p>
       }
