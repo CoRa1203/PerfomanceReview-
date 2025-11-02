@@ -56,8 +56,8 @@ export const APIGoal = new CRUD('/v0/goal')
 // ************************************************************************************************************************************************
 
 export function createUrlAPI(path: string): string {
-  // const ROOT_URL_API = process.env.NEXT_PUBLIC_HOST 
-  const ROOT_URL_API = 'http://localhost:3000'
+  const ROOT_URL_API = process.env.NEXT_PUBLIC_HOST 
+  // const ROOT_URL_API = 'http://localhost:3000'
   return ROOT_URL_API + `/api` + path
 }
 

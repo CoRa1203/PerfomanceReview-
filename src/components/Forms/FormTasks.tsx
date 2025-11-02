@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Task } from "@prisma/client";
 
-const ROOT_URL_API = "http://localhost:3000/api";
+const ROOT_URL_API = process.env.NEXT_PUBLIC_HOST + `/api`;
 const url = ROOT_URL_API + "/v0/task/";
 const urlGoal = ROOT_URL_API + "/v0/goal/"
 
