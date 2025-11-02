@@ -4,7 +4,8 @@
 - настроить переменные окружения в .env 
 - запустить СУБД
 ```
-docker run --name db_pr -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres_pass -e POSTGRES_DB=data -d postgres
+npm install
+docker compose up db -d
 npx prisma migrate dev
 npx prisma studio
 ```
@@ -13,8 +14,25 @@ npx prisma studio
 npm run dev
 ```
 
+## Запуск в режиме deploy
 
-## Используетые технологии
+```
+npm install
+docker compose up db -d
+npx prisma migrate deploy || npx prisma migrate dev
+npm ci
+npx prisma generate
+npm run build
+docker compose up --build -d
+```
+
+- Миграция и проверка статуса
+```
+docker compose exec app npx prisma migrate deploy
+docker compose exec app npx prisma migrate status
+```
+
+## Используемые технологии
 - docker
 - postgres
 ### JS библиотеки и фреймворки
