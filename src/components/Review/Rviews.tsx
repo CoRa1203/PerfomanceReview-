@@ -18,6 +18,7 @@ import React from "react";
 import Link from "next/link";
 import { More } from "../icons";
 
+// TODO добавить число целей
 export const columns = [
   { name: "НАЧАЛО РЕВЬЮ", uid: "start" },
   { name: "КОНЕЦ РЕВЬЮ", uid: "end" },

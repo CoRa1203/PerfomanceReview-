@@ -25,7 +25,7 @@ export default function Review(){
 
     {review && <ReviewPage review={review} /> }
 
-    <div className=" mt-5 *:mr-2 ">
+    <div className=" mt-5 *:mr-2 *:mb-2 ">
       {/* <ButtonLink href={`/reviews/${reviewId}/settings`}>
         Настройки    
       </ButtonLink> */}
@@ -34,6 +34,9 @@ export default function Review(){
       </ButtonLink>
       <ButtonLink href={process.env.NEXT_PUBLIC_HOST + `/reviews/${reviewId}/feedback`} >
         Поставить оценку результативности и потенциала
+      </ButtonLink>
+      <ButtonLink href={`/reviews/${reviewId}/recommendation`}>
+        Написать рекомендации    
       </ButtonLink>
       {/* <ButtonCopyLink text={process.env.NEXT_PUBLIC_HOST + `/reviews/${review.id}/feedback`}>
         Скопировать ссылку для фидбека

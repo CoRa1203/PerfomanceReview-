@@ -16,13 +16,14 @@ import {
 } from "@heroui/react";
 
 import { Add, Delete, Edit, More } from "./icons";
-import { Goal } from "@/types";
+import { Goal, Task } from "@/types";
 import { APITask } from "@/lib/API/functionAPI";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import FormGoal from "./Forms/FormGoal";
 
 export const columns = [
+  { name: "РЕВЬЮ", uid: "review" },
   { name: "ЦЕЛЬ", uid: "goal" },
   { name: "ОПИСАНИЕ", uid: "description" },
   { name: "ДЕЙСТВИЯ", uid: "actions" },
@@ -45,7 +46,7 @@ export const columns = [
 // }
 
 // export default function GoalsTable({goals}: {goals: Goal[]}) {
-export default function GoalsTable({goals: goalsDefault}: {goals: Goal[]}){
+export default function GoalsTable({goals: goalsDefault}: {goals: Task[]}){
   const [ goals, setGoals ] = useState(goalsDefault)
 
   const userId = useParams().userId as string | undefined
@@ -66,8 +67,12 @@ export default function GoalsTable({goals: goalsDefault}: {goals: Goal[]}){
   const handleEditGoal = (goalId: string) => {
     router.push(`/goals/${goalId}/edit`);
   };
-  const renderCell = React.useCallback((goal: Goal, columnKey: string) => {
+  const renderCell = React.useCallback((goal: Task, columnKey: string) => {
     switch (columnKey) {
+      case "review":
+        return <div className="truncate max-w-full">
+          {goal.reviewId ? `Ревью № ${goal.reviewId}` : '-' }
+        </div>;
       case "goal":
         return <div className="truncate max-w-full">{goal.title}</div>;
       case "description":
@@ -117,14 +122,15 @@ export default function GoalsTable({goals: goalsDefault}: {goals: Goal[]}){
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-4 justify-between items-center">
+      {/* TODO  восстановить */}
+      {/* <div className="flex gap-4 justify-between items-center">
         <h1 className="text-2xl">Цели</h1>
         <Tooltip content="Создать цель">
           <Button isIconOnly color="primary" onPress={onOpen}>
             <Add />
           </Button>
         </Tooltip>
-      </div>
+      </div> */}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
@@ -168,6 +174,9 @@ export default function GoalsTable({goals: goalsDefault}: {goals: Goal[]}){
         <TableBody items={goals}>
           {(item) => (
             <TableRow key={item.id}>
+              <TableCell className="w-1/4 max-w-[25%] overflow-hidden">
+                {renderCell(item, "review")}
+              </TableCell>
               <TableCell className="w-1/4 max-w-[25%] overflow-hidden">
                 {renderCell(item, "goal")}
               </TableCell>

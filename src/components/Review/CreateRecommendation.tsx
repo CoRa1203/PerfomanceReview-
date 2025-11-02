@@ -11,29 +11,15 @@ import { useEffect } from "react"
 
 
 const fields: Field[] = [
-  // {
-  //   type: 'options',
-  //   name: 
-  // }
   {
-    type: 'date',
-    name: 'dateStart',
-    label: 'Начадо оцениваемого периода',
-  },
-  {
-    type: 'date',
-    name: 'dateEnd',
-    label: 'Конец оцениваемого периода',
-  },  
-  {
-    type: 'date',
-    name: 'dateRes',
-    label: 'Дата подведения результатов',
+    type: 'textarea',
+    name: 'recommendation',
+    label: 'Рекомендации',
   },
 ]
 
 
-export default function ReviewForm({review}: {review?: Review}){
+export default function CreateRecommendation({review}: {review?: Review}){
   const router = useRouter()
   const { query, isLoading, errorMessage } = useQueryData()
   useEffect(()=>{

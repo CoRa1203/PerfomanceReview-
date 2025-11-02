@@ -97,13 +97,15 @@ export default function FormTask({ goalData }: { goalData?: TaskDefault }) {
       query(
         APITask.update(dateTask.id, dateTask)
         .then(res => {
-          router.push(`/goals/${dateTask.id}`);
+          // router.back()
+          router.push(`/goals/${dateTask.id}`); 
         })
       )
     } else {
       query(
         APITask.create(dateTask)
         .then(res => {
+          // router.back()
           router.push(`/goals/${res.id}`);
         })
       )  

@@ -39,8 +39,15 @@ export default function ReviewResult({review}: {review: ReviewGET}){
       {/* <NineBoxMatrix x={point.perfomance - 0.5} y={point.potential - 0.5}/> */}
       <Matrix x={x} y={y} />
       <br />
+      {review.recommendation ? 
+        <>
+          <p>Рекомендации:</p>
+          <p>{review.recommendation}</p>
+        </>
+        :
+        <></>  
+      }  
       <br />
-      {/* <p>Рекомендации:</p> // TODO */}
       {/* <p>Фидбеки:</p>  // TODO */}
       { (review.tasks && review.feedbacks ) ?
         <ListFeedback tasks={review.tasks} feedbacks={review.feedbacks} />

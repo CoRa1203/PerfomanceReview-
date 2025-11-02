@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Task } from "@prisma/client";
+import { Task, User } from "@prisma/client";
 import { APITask } from "@/lib/API/functionAPI";
 import FormTasks from "@/components/Forms/FormTasks";
 import { Delete, Edit } from "@/components/icons";
@@ -13,9 +13,11 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
+  Link,
 } from "@heroui/react";
 import ButtonCopyText from "@/components/ButtonCopyText";
 import ButtonCopyLink from "@/components/ButtonCopyLink";
+import { APIUser } from "@/lib/API";
 
 // const ROOT_URL_API = "http://192.168.137.1:3000/api";
 const ROOT_URL_API = process.env.NEXT_PUBLIC_HOST + `/api`;
@@ -29,6 +31,10 @@ export default function Goal() {
   const [goal, setGoal] = useState<Task>();
   const [tasks, setTasks] = useState<Task>();
   const { onOpen, isOpen, onOpenChange } = useDisclosure();
+  const [ user, setUser ] = useState<User>()
+  useEffect(()=>{
+    goal?.executorId && APIUser.get(goal?.executorId).then(setUser)
+  }, [goal])
 
   useEffect(() => {
     async function getGoalData() {
@@ -72,8 +78,14 @@ export default function Goal() {
      <div className="w-full flex flex-col gap-4">
       <div className="flex gap-4 justify-between">
         <div className="flex flex-col flex-1 min-w-0 gap-2"> {/* Добавлены классы для правильного переноса */}
-          <h1 className="text-2xl break-words whitespace-normal">{goal?.title}</h1> {/* Разрешен перенос слов */}
-          <p className="break-words whitespace-normal">{goal?.description}</p> {/* Разрешен перенос слов */}
+          <h1 className="text-2xl break-words whitespace-normal"> Цель: {goal?.title}</h1> {/* Разрешен перенос слов */}
+          <p >
+            Исполнитель: 
+            <Link href={`/users/${goal?.executorId}`} className="mx-2">
+              {user?.name || user?.email}
+            </Link>
+          </p>
+          <p className="break-words whitespace-normal">Описание: {goal?.description}</p> {/* Разрешен перенос слов */}
         </div>
         <div className="flex gap-2 flex-shrink-0"> {/* Кнопки не сжимаются */}
           <ButtonCopyText text={goal?.description}/>
@@ -90,9 +102,10 @@ export default function Goal() {
           Создать задачу
         </Button>
       </div>
-      {goal?.id && <>
+      {(goal?.id && goal?.reviewId ) && 
+      <>
         {/* TODO вывести число отзывов которые уже оставили */}
-        <h1> Отзывы </h1>
+        <h1> Отзывы для ревью №{goal?.reviewId}</h1>
         <p> 
           Скопируй ссылу и отправь ее тем кто сможет оставить отзыв о твоей работе над этой задаче. 
           Отзыв должны оставить: твой руководитель, 3 твоих коллеги и ты сам.
