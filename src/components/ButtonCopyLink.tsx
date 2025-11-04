@@ -12,6 +12,7 @@ export default function ButtonCopyLink({ text, children }: CopyButtonProps){
   const handleCopy = async () => {
     try {
       // const copyText = process.env.NEXT_PUBLIC_HOST + text
+      // н требует HTTPS (или localhost)
       await navigator.clipboard.writeText(text);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 5000);

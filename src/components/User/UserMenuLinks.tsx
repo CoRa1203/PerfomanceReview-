@@ -43,7 +43,7 @@ function getMenuItems(id: string | number) {
 
 export default function UserMenuLinks({ user }: { user: UserGET }) {
   const router = useRouter();
-  useEffect(()=>{ console.log(user.subordinates) }, [])
+  // useEffect(()=>{ console.log(user) }, [])
   const id = user.id;
   const menu = getMenuItems(id);
 
@@ -63,7 +63,7 @@ export default function UserMenuLinks({ user }: { user: UserGET }) {
             </li>
           </Link>
         :
-          <Link href={`/users/${user.id}/addlead`}>
+          <Link href={`/users/${user.id}/edit/lead`}>
             <li className="dark:hover:bg-gray-900  hover:bg-gray-200 transition-colors duration-500 rounded-xl px-4 py-2 ">
               Добавить руководителя
             </li>
@@ -72,7 +72,7 @@ export default function UserMenuLinks({ user }: { user: UserGET }) {
       <li className="dark:hover:bg-gray-900  hover:bg-gray-200 transition-colors duration-500 rounded-xl px-4 py-2 ">
         Подчиненные
       </li>
-      {user.subordinates.map( (u: User, index: number) => 
+      {user.subordinates?.map( (u: User, index: number) => 
         <Link href={`/users/${u.id}`} key={index}>
           <li className="dark:hover:bg-gray-900  hover:bg-gray-200 transition-colors duration-500 rounded-xl px-4 py-2 ">
             <div className="ml-5">

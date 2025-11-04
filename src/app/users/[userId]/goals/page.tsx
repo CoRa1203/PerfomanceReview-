@@ -2,7 +2,7 @@
 
 import GoalsTable from "@/components/GoalTable"
 import { useQueryData } from "@/hooks/useQueryData"
-import { APIUser, CRUD } from "@/lib/API"
+import { APIUser, APIUserFull, CRUD } from "@/lib/API"
 import AlertError from "@/shared/ui/AlertError"
 import LoadingAlert from "@/shared/ui/Loader/LoadingAlert"
 import { Link } from "@heroui/link"
@@ -19,7 +19,7 @@ export default function GoalsFromUser(){
   const [ user, setUser ] = useState<User>()
   const { query, data: goals, isLoading, errorMessage } = useQueryData() 
   useEffect(()=>{
-    APIUser.get(userId).then(setUser)
+    APIUserFull.get(userId).then(setUser)
     const APIGoalFromUser = new CRUD(`/v0/user/${userId}/goal`)
     query(
       APIGoalFromUser.getList()

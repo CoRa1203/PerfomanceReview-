@@ -2,7 +2,7 @@
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { Button } from "@heroui/button";
-import { APIReview, APIUser } from "@/lib/API/queryAPI";
+import { APIReview, APIUser, APIUserFull } from "@/lib/API/queryAPI";
 import { useQueryData } from "@/hooks/useQueryData";
 import { useEffect } from "react";
 import { ReviewPOST, User, UserGET } from "@/types";
@@ -26,7 +26,7 @@ export default function Profile() {
     setErrorMessage,
   } = useQueryData();
   useEffect(() => {
-    userId && query(APIUser.get(userId).then(res=>{ console.log(res); return res }));
+    userId && query(APIUserFull.get(userId));
   }, []);
 
 

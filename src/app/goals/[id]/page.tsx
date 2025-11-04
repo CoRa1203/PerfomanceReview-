@@ -17,7 +17,7 @@ import {
 } from "@heroui/react";
 import ButtonCopyText from "@/components/ButtonCopyText";
 import ButtonCopyLink from "@/components/ButtonCopyLink";
-import { APIUser } from "@/lib/API";
+import { APIUser, APIUserFull } from "@/lib/API";
 import dayjs from "dayjs";
 
 // const ROOT_URL_API = "http://192.168.137.1:3000/api";
@@ -38,7 +38,7 @@ export default function Goal() {
   const { onOpen, isOpen, onOpenChange } = useDisclosure();
   const [user, setUser] = useState<User>();
   useEffect(() => {
-    goal?.executorId && APIUser.get(goal?.executorId).then(setUser);
+    goal?.executorId && APIUserFull.get(goal?.executorId).then(setUser);
   }, [goal]);
 
   useEffect(() => {
@@ -61,6 +61,8 @@ export default function Goal() {
     }
     getTaskData();
   }, [id]);
+
+  const linkFeedback = process.env.NEXT_PUBLIC_HOST + `/target/${goal?.id}/feedback`
 
   async function deleteGoal() {
     await APITask.delete(id);
@@ -129,11 +131,10 @@ export default function Goal() {
             работе над этой задаче. Отзыв должны оставить: твой руководитель, 3
             твоих коллеги и ты сам.
           </p>
+          <p>ссылка: <Link href={linkFeedback}>{linkFeedback}</Link></p>
           <div className=" *:mr-2 ">
             <ButtonCopyLink
-              text={
-                process.env.NEXT_PUBLIC_HOST + `/target/${goal?.id}/feedback`
-              }
+              text={linkFeedback}
             >
               Скопировать ссылку для фидбека
             </ButtonCopyLink>

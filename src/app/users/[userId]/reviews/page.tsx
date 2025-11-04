@@ -1,7 +1,7 @@
 'use client'
 
 import { useQueryData } from '@/hooks/useQueryData'
-import { APIUser, CRUD } from '@/lib/API'
+import { APIUser, APIUserFull, CRUD } from '@/lib/API'
 import AlertError from '@/shared/ui/AlertError'
 import LoadingAlert from '@/shared/ui/Loader/LoadingAlert'
 // import { APIReview } from '@/lib/API'
@@ -22,7 +22,7 @@ export default function PageRviews(){
   const {query, data: reviews, isLoading, errorMessage, setErrorMessage} = useQueryData()
   const [ user, setUser ] = useState<User>()
   useEffect(()=>{
-    APIUser.get(userId).then(setUser)
+    APIUserFull.get(userId).then(setUser)
     const APIReview = new CRUD(`/v0/user/${userId}/review`)
     userId && query(APIReview.getList())
   },[])
