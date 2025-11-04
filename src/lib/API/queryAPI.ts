@@ -13,14 +13,26 @@ export class CRUD {
   get(id: string | number){return getAPI(this.path + '/' + id)}
   delete(id: string | number){return deleteAPI(this.path + '/' + id)}
   update(id: string | number, data: any){return updateAPI(this.path + '/' + id, data)}
-  // TODO 
-  // edit(id: string | number, data: any){getListAPI(this.path + '/' + id, data)}
+  edit(id: string | number, data: any){return editAPI(this.path + '/' + id, data)}
   // creteOrUpdate:
+}
+
+export class Read {
+  path: string
+
+  constructor(path: string){
+    this.path = path
+  }
+
+  printPath(){console.log(this.path)}
+  getList(){return getListAPI(this.path)}
+  get(id: string | number){return getAPI(this.path + '/' + id)}
 }
 
 // User ************************************************************************************************************************************************
 
 export const APIUser = new CRUD('/v0/user')
+export const APIUserFull = new Read('/v0/user/full')
 
 // Feedback ************************************************************************************************************************************************
 
