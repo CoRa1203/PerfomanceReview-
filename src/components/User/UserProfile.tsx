@@ -36,6 +36,10 @@ export default function UserProfile({user}: {user: UserGET}){
     });
   }
 
+  function editProfile(){
+     router.push(`/users/${id}/edit`);
+  }
+
   return <>
     {errorMessage && <AlertError>Не удалось создать</AlertError>}
     {isLoading && <LoadingAlert> Создается.. </LoadingAlert>}
@@ -65,6 +69,14 @@ export default function UserProfile({user}: {user: UserGET}){
           }}
           >
           Поставить цель
+        </Button>
+         <Button
+          color="primary"
+          onPress={() => {
+            editProfile();
+          }}
+          >
+          Редактировать профиль
         </Button>
       </div>
     </>}

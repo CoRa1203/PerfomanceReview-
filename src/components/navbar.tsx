@@ -19,6 +19,7 @@ import { Logo, LogIn, LogOut } from "@/components/icons";
 import { useEffect, useState } from "react";
 import { APIUser } from "@/lib/API";
 import { User } from "@/types";
+import Link from "next/link";
 
 export const Navbar = () => {
   const { data, status } = useSession();
@@ -72,8 +73,9 @@ export const Navbar = () => {
             <NavbarItem className="hidden sm:flex gap-2">
               <ThemeSwitch />
             </NavbarItem>
-            <NavbarItem className="hidden sm:flex gap-2">
-              {userName}
+            <NavbarItem className="hidden sm:flex gap-2 ">
+              <Link className="hidden sm:flex gap-2 hover:text-gray-300 transition-colors duration-500" href={`/users/${user?.id}`}>{userName}</Link>
+            
             </NavbarItem>
             <NavbarItem>
               <Button

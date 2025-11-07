@@ -8,6 +8,7 @@ export default function UserProfile({user}: {user: UserGET}){
   return <div className=" *:mb-2 " >
     <p>ФИО: {user.name || '-'} </p>
     <p>email: {user.email} </p>
+
     {/* <p>
       Руководитель - 
       {user.lead?.id ?
