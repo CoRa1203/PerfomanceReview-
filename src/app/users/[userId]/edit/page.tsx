@@ -1,10 +1,11 @@
 "use client";
 
+import { contextUser } from "@/app/providerUser";
 import { APIUser } from "@/lib/API";
 import { Button, Input } from "@heroui/react";
 import { User } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 //TODO написать функцию отправки
 //TODO добавить редирект при сохранении пользователя
@@ -26,7 +27,8 @@ export default function EditPrifile() {
   const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
+  const UserContext = useContext(contextUser)
+  const setUserContext = UserContext?.setUser;
   async function saveData(id: string, user: User) {
     // APIUser.edit(id, user);
     try {
@@ -38,6 +40,7 @@ export default function EditPrifile() {
         body: JSON.stringify(user),
       });
       await response.json();
+      setUserContext?.(user)
       router.push("/cabinet");
     } catch (error) {
       setErrorMessage(true);

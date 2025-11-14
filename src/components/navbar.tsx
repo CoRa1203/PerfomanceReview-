@@ -1,5 +1,7 @@
 "use client";
 
+import {useContext} from 'react'
+import {contextUser} from '@/app/providerUser' 
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -15,20 +17,21 @@ import { signOut } from "next-auth/react";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { Logo, LogIn, LogOut } from "@/components/icons";
+import {  LogIn, LogOut } from "@/components/icons";
 import { useEffect, useState } from "react";
 import { APIUser } from "@/lib/API";
 import { User } from "@/types";
 import Link from "next/link";
 
 export const Navbar = () => {
-  const { data, status } = useSession();
+  const { status } = useSession();
   const isAuthenticated = status === "authenticated";
 
-  const [user, setUser] = useState<User>()
-  useEffect(()=>{
-    data?.user?.id && APIUser.get(data.user.id).then(user => setUser(user))
-  },[])
+  const UserContext = useContext(contextUser)
+  const user = UserContext?.user
+
+  // const [user, setUser] = useState<User>()
+
   const userName = user?.name || user?.email
 
 
@@ -38,7 +41,7 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo />
+          <p>Logo</p>
           </NextLink>
         </NavbarBrand>
       </NavbarContent>

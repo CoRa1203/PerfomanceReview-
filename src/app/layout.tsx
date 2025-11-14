@@ -11,6 +11,7 @@ import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { Logo } from "@/components/icons";
 import { HeroUIProvider } from "@heroui/system";
+import ProviderUser from "./providerUser";
 
 export const metadata: Metadata = {
   title: {
@@ -46,6 +47,7 @@ export default function RootLayout({
       >
         <ProvidersServer>
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+          <ProviderUser>
           <HeroUIProvider locale="ru-RU">
           <div className="relative flex flex-col h-screen ">
             <Navbar/>
@@ -62,6 +64,7 @@ export default function RootLayout({
             </footer>
           </div>
           </HeroUIProvider>
+          </ProviderUser>
         </Providers>
         </ProvidersServer>
       </body>
